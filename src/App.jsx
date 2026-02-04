@@ -24,6 +24,28 @@ const T = {
 };
 
 /* ============================================
+   PLAYER HEADSHOTS (ESPN CDN)
+   ============================================
+   These are publicly available headshot images.
+   To add a new player, find their ESPN player page
+   and grab the ID from the URL.                    */
+const HEADSHOTS = {
+  "lamar-jackson": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3916387.png&w=96&h=70&cb=1",
+  "patrick-mahomes": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png&w=96&h=70&cb=1",
+  "josh-allen": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=96&h=70&cb=1",
+  "joe-burrow": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3915511.png&w=96&h=70&cb=1",
+  "jalen-hurts": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png&w=96&h=70&cb=1",
+  "cj-stroud": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png&w=96&h=70&cb=1",
+  "jayden-daniels": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429013.png&w=96&h=70&cb=1",
+  "brock-purdy": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361741.png&w=96&h=70&cb=1",
+  "dak-prescott": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png&w=96&h=70&cb=1",
+  "geno-smith": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/14877.png&w=96&h=70&cb=1",
+  "bryce-young": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429025.png&w=96&h=70&cb=1",
+  "tua-tagovailoa": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png&w=96&h=70&cb=1",
+  "justin-herbert": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png&w=96&h=70&cb=1",
+};
+
+/* ============================================
    RESPONSIVE HOOK
    ============================================ */
 const useIsMobile = (breakpoint = 768) => {
@@ -40,9 +62,7 @@ const useIsMobile = (breakpoint = 768) => {
 
 /* ============================================
    CONTENT WIDTH WRAPPER
-   ============================================
-   Centers content at a comfortable reading
-   width on desktop. Full-width on mobile.    */
+   ============================================ */
 const ContentWrap = ({ children, style: s }) => (
   <div style={{
     maxWidth: 900,
@@ -66,8 +86,31 @@ const AccentLabel = ({ children, style: s }) => (
   </div>
 );
 
-const Avatar = ({ name, size = 48 }) => {
+const Avatar = ({ name, slug, size = 48 }) => {
+  const [imgError, setImgError] = useState(false);
+  const src = HEADSHOTS[slug];
   const initials = name.split(" ").map(n => n[0]).join("");
+
+  if (src && !imgError) {
+    return (
+      <div style={{
+        width: size, height: size, borderRadius: 8, flexShrink: 0,
+        background: "#ECECEC", overflow: "hidden",
+      }}>
+        <img
+          src={src}
+          alt={name}
+          onError={() => setImgError(true)}
+          style={{
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            objectPosition: "center top",
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{
       width: size, height: size, borderRadius: 8, flexShrink: 0,
@@ -140,6 +183,76 @@ const Footer = () => (
 );
 
 /* ============================================
+   HERO BACKGROUND TEXTURES
+   ============================================
+   Subtle decorative elements to fill the gap
+   between the text and player images.           */
+const HeroTextures = ({ isMobile }) => (
+  <>
+    {/* Diagonal accent lines */}
+    <svg style={{
+      position: "absolute", inset: 0, zIndex: 1, opacity: 0.035,
+      width: "100%", height: "100%",
+    }} preserveAspectRatio="none">
+      <defs>
+        <pattern id="diag" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+          <line x1="0" y1="0" x2="0" y2="40" stroke={T.accent} strokeWidth="1" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#diag)" />
+    </svg>
+
+    {/* Large faded rank numbers as texture */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "28%", top: "50%", transform: "translateY(-50%)",
+        zIndex: 1, opacity: 0.025, pointerEvents: "none",
+      }}>
+        <span style={{
+          fontSize: 280, fontWeight: 900, fontFamily: T.font,
+          color: T.white, letterSpacing: -20, lineHeight: 0.8,
+        }}>
+          10
+        </span>
+      </div>
+    )}
+
+    {/* Accent dot grid */}
+    <svg style={{
+      position: "absolute", inset: 0, zIndex: 1, opacity: 0.04,
+      width: "100%", height: "100%",
+    }}>
+      <defs>
+        <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill={T.accent} />
+        </pattern>
+      </defs>
+      <rect x="20%" y="15%" width="35%" height="70%" fill="url(#dots)" />
+    </svg>
+
+    {/* Subtle horizontal accent line */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "18%", right: "45%", top: "72%",
+        height: 1, background: `linear-gradient(to right, transparent, rgba(232,93,58,0.12), transparent)`,
+        zIndex: 1,
+      }} />
+    )}
+
+    {/* Small accent bracket shape */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "32%", top: "22%", zIndex: 1, opacity: 0.06,
+        width: 30, height: 50,
+        borderLeft: `2px solid ${T.accent}`,
+        borderTop: `2px solid ${T.accent}`,
+        borderBottom: `2px solid ${T.accent}`,
+      }} />
+    )}
+  </>
+);
+
+/* ============================================
    PAGE: Homepage
    ============================================ */
 const HomePage = ({ setPage, isMobile }) => (
@@ -147,33 +260,29 @@ const HomePage = ({ setPage, isMobile }) => (
     {/* Hero — full-width on all screen sizes */}
     {isMobile ? (
       /* ---- MOBILE HERO ----
-         Image as full background, text at bottom
-         with strong gradient protection. No overlap. */
+         Image as full background, shifted to show
+         all 3 QBs, text at bottom with gradient.   */
       <div style={{
         position: "relative", minHeight: 340, background: T.heroBg,
         overflow: "hidden",
       }}>
-        {/* Full-width background image */}
+        {/* Full-width background image — shifted to show all players */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.75,
+          backgroundPosition: "70% center",
+          opacity: 0.8,
         }} />
+        <HeroTextures isMobile={true} />
         {/* Strong bottom gradient so text is always readable */}
         <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: `linear-gradient(to top, ${T.heroBg} 28%, rgba(20,20,20,0.55) 60%, rgba(20,20,20,0.15) 100%)`,
+          position: "absolute", inset: 0, zIndex: 2,
+          background: `linear-gradient(to top, ${T.heroBg} 25%, rgba(20,20,20,0.5) 55%, rgba(20,20,20,0.1) 100%)`,
         }} />
-        {/* Subtle radial accent */}
+        {/* Text pinned to bottom */}
         <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "radial-gradient(ellipse at 50% 30%, rgba(232,93,58,0.04) 0%, transparent 60%)",
-        }} />
-        {/* Text pinned to bottom, full-width */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2,
+          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3,
           padding: "0 20px 36px",
         }}>
           <AccentLabel style={{ marginBottom: 12 }}>The World Renowned List</AccentLabel>
@@ -200,29 +309,33 @@ const HomePage = ({ setPage, isMobile }) => (
       </div>
     ) : (
       /* ---- DESKTOP HERO ----
-         Original split layout but full-width */
+         Split layout with textures in the gap      */
       <div style={{
-        position: "relative", minHeight: 380, background: T.heroBg,
+        position: "relative", minHeight: 400, background: T.heroBg,
         display: "flex", alignItems: "flex-end", overflow: "hidden",
       }}>
+        {/* Hero image — wider coverage, shows all players */}
         <div style={{
-          position: "absolute", inset: 0,
-          background: "radial-gradient(ellipse at 65% 50%, rgba(232,93,58,0.03) 0%, transparent 60%)",
-        }} />
-        {/* Hero image — right side */}
-        <div style={{
-          position: "absolute", right: 0, top: 0, width: "55%", height: "100%",
+          position: "absolute", right: 0, top: 0, width: "60%", height: "100%",
           backgroundImage: `url(${heroImage})`,
-          backgroundSize: "cover", backgroundPosition: "center right",
-          opacity: 0.85,
+          backgroundSize: "cover",
+          backgroundPosition: "65% center",
+          opacity: 0.9,
         }} />
-        {/* Left fade */}
+        {/* Background textures */}
+        <HeroTextures isMobile={false} />
+        {/* Left fade — tighter to reduce dead zone */}
         <div style={{
-          position: "absolute", left: 0, top: 0, width: "50%", height: "100%",
-          background: `linear-gradient(to right, ${T.heroBg} 60%, transparent 100%)`, zIndex: 1,
+          position: "absolute", left: 0, top: 0, width: "48%", height: "100%",
+          background: `linear-gradient(to right, ${T.heroBg} 55%, transparent 100%)`, zIndex: 2,
+        }} />
+        {/* Subtle right edge fade */}
+        <div style={{
+          position: "absolute", right: 0, top: 0, width: "10%", height: "100%",
+          background: `linear-gradient(to left, rgba(20,20,20,0.4), transparent)`, zIndex: 2,
         }} />
         {/* Text */}
-        <div style={{ position: "relative", zIndex: 2, padding: "52px 48px 48px", maxWidth: 540 }}>
+        <div style={{ position: "relative", zIndex: 3, padding: "52px 48px 48px", maxWidth: 500 }}>
           <AccentLabel style={{ marginBottom: 14 }}>The World Renowned List</AccentLabel>
           <div style={{
             fontSize: 56, fontWeight: 900, fontFamily: T.font, letterSpacing: -3,
@@ -267,7 +380,7 @@ const HomePage = ({ setPage, isMobile }) => (
           }}>
             {String(qb.rank).padStart(2, "0")}
           </div>
-          <Avatar name={qb.name} size={i === 0 ? 56 : 46} />
+          <Avatar name={qb.name} slug={qb.slug} size={i === 0 ? 56 : 46} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
               <span style={{ fontSize: i === 0 ? 16 : 14, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>
@@ -304,6 +417,7 @@ const HomePage = ({ setPage, isMobile }) => (
               onMouseEnter={e => e.currentTarget.style.borderColor = "#CCC"}
               onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
             >
+              <Avatar name={d.name} slug={d.slug} size={24} />
               <span style={{ fontWeight: 700, color: T.dark }}>{d.name}</span>
               <span style={{ color: "#CCC", fontSize: 11 }}>was #{d.prev}</span>
             </div>
@@ -315,7 +429,7 @@ const HomePage = ({ setPage, isMobile }) => (
       <div style={{ marginTop: 8, paddingTop: 20, borderTop: `2px solid ${T.dark}` }}>
         <AccentLabel style={{ marginBottom: 14 }}>Worst QB of the Week</AccentLabel>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <Avatar name={WORST.name} size={48} />
+          <Avatar name={WORST.name} slug={WORST.slug} size={48} />
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontSize: 15, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>{WORST.name}</span>
@@ -359,7 +473,7 @@ const PlayerPage = ({ slug, setPage }) => {
       <div style={{ padding: "24px 0 20px", borderBottom: `1px solid ${T.border}` }}>
         <AccentLabel style={{ marginBottom: 10 }}>Player Profile</AccentLabel>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <Avatar name={qb.name} size={64} />
+          <Avatar name={qb.name} slug={slug} size={64} />
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 22, fontWeight: 900, fontFamily: T.font, letterSpacing: -1, color: T.dark }}>{qb.name}</div>
             <div style={{ fontSize: 12, color: T.mid, fontFamily: T.font, marginTop: 2 }}>{qb.team}</div>
@@ -473,10 +587,16 @@ const ArchivePage = ({ setPage }) => {
           }}>
             {filtered.map(p => (
               <div key={p.slug} onClick={() => { setSearch(""); setPage({ type: "player", slug: p.slug }); }}
-                style={{ padding: "10px 16px", fontSize: 13, fontFamily: T.font, cursor: "pointer", borderBottom: `1px solid ${T.border}` }}
+                style={{
+                  padding: "10px 16px", fontSize: 13, fontFamily: T.font, cursor: "pointer",
+                  borderBottom: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 10,
+                }}
                 onMouseEnter={e => e.currentTarget.style.background = "#FAFAFA"}
                 onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-              >{p.name}</div>
+              >
+                <Avatar name={p.name} slug={p.slug} size={24} />
+                {p.name}
+              </div>
             ))}
           </div>
         )}
