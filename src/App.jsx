@@ -29,20 +29,40 @@ const T = {
    These are publicly available headshot images.
    To add a new player, find their ESPN player page
    and grab the ID from the URL.                    */
+const espnHead = (id) => `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${id}.png&w=96&h=70&cb=1`;
 const HEADSHOTS = {
-  "lamar-jackson": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3916387.png&w=96&h=70&cb=1",
-  "patrick-mahomes": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3139477.png&w=96&h=70&cb=1",
-  "josh-allen": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=96&h=70&cb=1",
-  "joe-burrow": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3915511.png&w=96&h=70&cb=1",
-  "jalen-hurts": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png&w=96&h=70&cb=1",
-  "cj-stroud": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png&w=96&h=70&cb=1",
-  "jayden-daniels": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4426348.png&w=96&h=70&cb=1",
-  "brock-purdy": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361741.png&w=96&h=70&cb=1",
-  "dak-prescott": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png&w=96&h=70&cb=1",
-  "geno-smith": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15864.png&w=96&h=70&cb=1",
-  "bryce-young": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4685720.png&w=96&h=70&cb=1",
-  "tua-tagovailoa": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png&w=96&h=70&cb=1",
-  "justin-herbert": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png&w=96&h=70&cb=1",
+  // Current ranked / dropped / worst
+  "lamar-jackson": espnHead(3916387),
+  "patrick-mahomes": espnHead(3139477),
+  "josh-allen": espnHead(3918298),
+  "joe-burrow": espnHead(3915511),
+  "jalen-hurts": espnHead(4040715),
+  "cj-stroud": espnHead(4432577),
+  "jayden-daniels": espnHead(4426348),
+  "brock-purdy": espnHead(4361741),
+  "dak-prescott": espnHead(2577417),
+  "geno-smith": espnHead(15864),
+  "bryce-young": espnHead(4685720),
+  "tua-tagovailoa": espnHead(4241479),
+  "justin-herbert": espnHead(4038941),
+  // Expanded search pool (top 30 by 2025 passing yards)
+  "matthew-stafford": espnHead(12483),
+  "jared-goff": espnHead(3046779),
+  "drake-maye": espnHead(4431452),
+  "sam-darnold": espnHead(3912547),
+  "trevor-lawrence": espnHead(4360310),
+  "caleb-williams": espnHead(4431611),
+  "bo-nix": espnHead(4426385),
+  "baker-mayfield": espnHead(3052587),
+  "jordan-love": espnHead(3916148),
+  "jacoby-brissett": espnHead(2969939),
+  "aaron-rodgers": espnHead(8439),
+  "daniel-jones": espnHead(3917792),
+  "cam-ward": espnHead(4686013),
+  "kirk-cousins": espnHead(14880),
+  "kyler-murray": espnHead(3917315),
+  "russell-wilson": espnHead(14881),
+  "anthony-richardson": espnHead(4567048),
 };
 
 /* ============================================
@@ -592,7 +612,34 @@ const PlayerPage = ({ slug, setPage, isMobile }) => {
 const ArchivePage = ({ setPage, isMobile }) => {
   const [search, setSearch] = useState("");
   const [season, setSeason] = useState("2026");
-  const allPlayers = [...RANKINGS.map(q => ({ name: q.name, slug: q.slug })), ...DROPPED.map(d => ({ name: d.name, slug: d.slug }))];
+  // Full searchable player database — top 30 QBs by 2025 passing yards
+  const ALL_SEARCHABLE = [
+    // From RANKINGS / DROPPED / WORST (already in data)
+    ...RANKINGS.map(q => ({ name: q.name, slug: q.slug, team: q.team })),
+    ...DROPPED.map(d => ({ name: d.name, slug: d.slug, team: "—" })),
+    { name: WORST.name, slug: WORST.slug, team: WORST.team },
+    // Additional QBs (2025 season passing leaders not already above)
+    { name: "Matthew Stafford", slug: "matthew-stafford", team: "LAR" },
+    { name: "Jared Goff", slug: "jared-goff", team: "DET" },
+    { name: "Drake Maye", slug: "drake-maye", team: "NE" },
+    { name: "Sam Darnold", slug: "sam-darnold", team: "SEA" },
+    { name: "Trevor Lawrence", slug: "trevor-lawrence", team: "JAX" },
+    { name: "Caleb Williams", slug: "caleb-williams", team: "CHI" },
+    { name: "Bo Nix", slug: "bo-nix", team: "DEN" },
+    { name: "Baker Mayfield", slug: "baker-mayfield", team: "TB" },
+    { name: "Jordan Love", slug: "jordan-love", team: "GB" },
+    { name: "Jacoby Brissett", slug: "jacoby-brissett", team: "ARI" },
+    { name: "Aaron Rodgers", slug: "aaron-rodgers", team: "PIT" },
+    { name: "Daniel Jones", slug: "daniel-jones", team: "IND" },
+    { name: "Cam Ward", slug: "cam-ward", team: "TEN" },
+    { name: "Kirk Cousins", slug: "kirk-cousins", team: "ATL" },
+    { name: "Kyler Murray", slug: "kyler-murray", team: "ARI" },
+    { name: "Russell Wilson", slug: "russell-wilson", team: "PIT" },
+    { name: "Anthony Richardson", slug: "anthony-richardson", team: "IND" },
+  ];
+  // Deduplicate by slug
+  const seen = new Set();
+  const allPlayers = ALL_SEARCHABLE.filter(p => { if (seen.has(p.slug)) return false; seen.add(p.slug); return true; });
   const filtered = search.length > 1 ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase())) : [];
 
   // Map last names to slugs for archive card headshots
@@ -670,7 +717,8 @@ const ArchivePage = ({ setPage, isMobile }) => {
                     onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                   >
                     <Avatar name={p.name} slug={p.slug} size={24} />
-                    {p.name}
+                    <span style={{ fontWeight: 600 }}>{p.name}</span>
+                    {p.team && p.team !== "—" && <span style={{ color: "#CCC", fontSize: 11 }}>{p.team}</span>}
                   </div>
                 ))}
               </div>
@@ -704,23 +752,6 @@ const ArchivePage = ({ setPage, isMobile }) => {
                 <div>
                   <div style={{ fontSize: 17, fontWeight: 900, fontFamily: T.font, letterSpacing: -0.5, color: T.dark }}>{w.label}</div>
                   <div style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, marginTop: 2 }}>{w.date}</div>
-                </div>
-                {/* Stacked headshot cluster */}
-                <div style={{ display: "flex", marginRight: 4 }}>
-                  {w.top3.slice(0, 3).map((name, i) => {
-                    const slug = nameToSlug[name];
-                    return (
-                      <div key={i} style={{
-                        marginLeft: i === 0 ? 0 : -8,
-                        zIndex: 3 - i,
-                        border: "2px solid white",
-                        borderRadius: 6,
-                        overflow: "hidden",
-                      }}>
-                        <Avatar name={name} slug={slug} size={24} />
-                      </div>
-                    );
-                  })}
                 </div>
               </div>
               <div style={{
@@ -778,16 +809,41 @@ const ArchivePage = ({ setPage, isMobile }) => {
    PAGE: About
    ============================================ */
 const AboutPage = ({ isMobile }) => (
-  <ContentWrap style={{ paddingBottom: 40 }}>
-    <div style={{ padding: "40px 0 28px", borderBottom: `1px solid ${T.border}` }}>
-      <AccentLabel style={{ marginBottom: 12 }}>The Man Behind the List</AccentLabel>
-      <div style={{ fontSize: 36, fontWeight: 900, fontFamily: T.font, letterSpacing: -2, color: T.dark, lineHeight: 1 }}>
-        The Rankmaster
+  <div>
+    {/* About hero banner — matches Archive style */}
+    <div style={{
+      background: T.heroBg, position: "relative", overflow: "hidden",
+      padding: isMobile ? "36px 20px 32px" : "48px 48px 40px",
+    }}>
+      <svg style={{ position: "absolute", inset: 0, opacity: 0.04, width: "100%", height: "100%" }}>
+        <defs>
+          <pattern id="aboutDots" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="0.8" fill={T.accent} />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#aboutDots)" />
+      </svg>
+      <div style={{
+        position: "absolute", right: isMobile ? -30 : 40, top: "50%", transform: "translateY(-50%)",
+        opacity: 0.03, pointerEvents: "none",
+      }}>
+        <span style={{ fontSize: isMobile ? 100 : 160, fontWeight: 900, fontFamily: T.font, color: T.white, letterSpacing: -8 }}>
+          RM
+        </span>
       </div>
-      <div style={{ fontSize: 14, color: "#666", fontFamily: T.font, marginTop: 14, lineHeight: 1.7, maxWidth: 480 }}>
-        Every organization needs a Rankmaster. Somebody brave enough to put 10 names in order and defend them against the internet. That somebody is me.
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1060, margin: "0 auto" }}>
+        <AccentLabel style={{ marginBottom: 10 }}>The Man Behind the List</AccentLabel>
+        <div style={{
+          fontSize: isMobile ? 28 : 36, fontWeight: 900, fontFamily: T.font,
+          letterSpacing: -1.5, color: T.white,
+        }}>The Rankmaster</div>
+        <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, marginTop: 6, maxWidth: 480 }}>
+          Every organization needs a Rankmaster. Somebody brave enough to put 10 names in order and defend them against the internet. That somebody is me.
+        </div>
       </div>
     </div>
+
+    <ContentWrap style={{ paddingBottom: 40 }}>
 
     <div style={{ padding: "28px 0", borderBottom: `1px solid ${T.border}` }}>
       <div style={{ display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
@@ -863,6 +919,7 @@ const AboutPage = ({ isMobile }) => (
     </div>
     <Footer />
   </ContentWrap>
+  </div>
 );
 
 /* ============================================
