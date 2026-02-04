@@ -36,11 +36,11 @@ const HEADSHOTS = {
   "joe-burrow": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3915511.png&w=96&h=70&cb=1",
   "jalen-hurts": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4040715.png&w=96&h=70&cb=1",
   "cj-stroud": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4432577.png&w=96&h=70&cb=1",
-  "jayden-daniels": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429013.png&w=96&h=70&cb=1",
+  "jayden-daniels": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4426348.png&w=96&h=70&cb=1",
   "brock-purdy": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4361741.png&w=96&h=70&cb=1",
   "dak-prescott": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/2577417.png&w=96&h=70&cb=1",
-  "geno-smith": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/14877.png&w=96&h=70&cb=1",
-  "bryce-young": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429025.png&w=96&h=70&cb=1",
+  "geno-smith": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/15864.png&w=96&h=70&cb=1",
+  "bryce-young": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4685720.png&w=96&h=70&cb=1",
   "tua-tagovailoa": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4241479.png&w=96&h=70&cb=1",
   "justin-herbert": "https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4038941.png&w=96&h=70&cb=1",
 };
@@ -189,27 +189,29 @@ const Footer = () => (
    between the text and player images.           */
 const HeroTextures = ({ isMobile }) => (
   <>
-    {/* Diagonal accent lines */}
-    <svg style={{
-      position: "absolute", inset: 0, zIndex: 1, opacity: 0.035,
-      width: "100%", height: "100%",
-    }} preserveAspectRatio="none">
-      <defs>
-        <pattern id="diag" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-          <line x1="0" y1="0" x2="0" y2="40" stroke={T.accent} strokeWidth="1" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#diag)" />
-    </svg>
+    {/* Diagonal accent lines — stronger opacity, positioned in the visible gap */}
+    {!isMobile && (
+      <svg style={{
+        position: "absolute", left: "25%", top: 0, width: "40%", height: "100%",
+        zIndex: 3, opacity: 0.07,
+      }} preserveAspectRatio="none">
+        <defs>
+          <pattern id="diag" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <line x1="0" y1="0" x2="0" y2="40" stroke={T.accent} strokeWidth="0.8" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#diag)" />
+      </svg>
+    )}
 
-    {/* Large faded rank numbers as texture */}
+    {/* Large faded "10" watermark — more visible */}
     {!isMobile && (
       <div style={{
-        position: "absolute", left: "28%", top: "50%", transform: "translateY(-50%)",
-        zIndex: 1, opacity: 0.025, pointerEvents: "none",
+        position: "absolute", left: "26%", top: "50%", transform: "translateY(-55%)",
+        zIndex: 3, opacity: 0.045, pointerEvents: "none",
       }}>
         <span style={{
-          fontSize: 280, fontWeight: 900, fontFamily: T.font,
+          fontSize: 300, fontWeight: 900, fontFamily: T.font,
           color: T.white, letterSpacing: -20, lineHeight: 0.8,
         }}>
           10
@@ -217,36 +219,67 @@ const HeroTextures = ({ isMobile }) => (
       </div>
     )}
 
-    {/* Accent dot grid */}
-    <svg style={{
-      position: "absolute", inset: 0, zIndex: 1, opacity: 0.04,
-      width: "100%", height: "100%",
-    }}>
-      <defs>
-        <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1" fill={T.accent} />
-        </pattern>
-      </defs>
-      <rect x="20%" y="15%" width="35%" height="70%" fill="url(#dots)" />
-    </svg>
+    {/* Accent dot grid — more visible, in gap zone */}
+    {!isMobile && (
+      <svg style={{
+        position: "absolute", left: "20%", top: 0, width: "45%", height: "100%",
+        zIndex: 3, opacity: 0.06,
+      }}>
+        <defs>
+          <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill={T.accent} />
+          </pattern>
+        </defs>
+        <rect x="10%" y="10%" width="80%" height="80%" fill="url(#dots)" />
+      </svg>
+    )}
 
-    {/* Subtle horizontal accent line */}
+    {/* Horizontal accent line — stronger */}
     {!isMobile && (
       <div style={{
-        position: "absolute", left: "18%", right: "45%", top: "72%",
-        height: 1, background: `linear-gradient(to right, transparent, rgba(232,93,58,0.12), transparent)`,
-        zIndex: 1,
+        position: "absolute", left: "20%", right: "42%", top: "72%",
+        height: 1, background: `linear-gradient(to right, transparent, rgba(232,93,58,0.2), transparent)`,
+        zIndex: 3,
       }} />
     )}
 
-    {/* Small accent bracket shape */}
+    {/* Top horizontal accent line */}
     {!isMobile && (
       <div style={{
-        position: "absolute", left: "32%", top: "22%", zIndex: 1, opacity: 0.06,
+        position: "absolute", left: "25%", right: "50%", top: "28%",
+        height: 1, background: `linear-gradient(to right, transparent, rgba(232,93,58,0.15), transparent)`,
+        zIndex: 3,
+      }} />
+    )}
+
+    {/* Bracket accent shape — stronger */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "34%", top: "20%", zIndex: 3, opacity: 0.1,
         width: 30, height: 50,
         borderLeft: `2px solid ${T.accent}`,
         borderTop: `2px solid ${T.accent}`,
         borderBottom: `2px solid ${T.accent}`,
+      }} />
+    )}
+
+    {/* Small right bracket */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "42%", top: "60%", zIndex: 3, opacity: 0.08,
+        width: 20, height: 35,
+        borderRight: `2px solid ${T.accent}`,
+        borderTop: `2px solid ${T.accent}`,
+        borderBottom: `2px solid ${T.accent}`,
+      }} />
+    )}
+
+    {/* Vertical accent line */}
+    {!isMobile && (
+      <div style={{
+        position: "absolute", left: "38%", top: "15%", bottom: "20%",
+        width: 1, background: `linear-gradient(to bottom, transparent, rgba(232,93,58,0.12), transparent)`,
+        zIndex: 3,
       }} />
     )}
   </>
@@ -271,7 +304,7 @@ const HomePage = ({ setPage, isMobile }) => (
           position: "absolute", inset: 0,
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "70% center",
+          backgroundPosition: "55% center",
           opacity: 0.8,
         }} />
         <HeroTextures isMobile={true} />
@@ -316,18 +349,18 @@ const HomePage = ({ setPage, isMobile }) => (
       }}>
         {/* Hero image — wider coverage, shows all players */}
         <div style={{
-          position: "absolute", right: 0, top: 0, width: "60%", height: "100%",
+          position: "absolute", right: 0, top: 0, width: "68%", height: "100%",
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "65% center",
+          backgroundPosition: "60% center",
           opacity: 0.9,
         }} />
         {/* Background textures */}
         <HeroTextures isMobile={false} />
-        {/* Left fade — tighter to reduce dead zone */}
+        {/* Left fade — narrower to reveal textures in the gap */}
         <div style={{
-          position: "absolute", left: 0, top: 0, width: "48%", height: "100%",
-          background: `linear-gradient(to right, ${T.heroBg} 55%, transparent 100%)`, zIndex: 2,
+          position: "absolute", left: 0, top: 0, width: "42%", height: "100%",
+          background: `linear-gradient(to right, ${T.heroBg} 50%, transparent 100%)`, zIndex: 2,
         }} />
         {/* Subtle right edge fade */}
         <div style={{
