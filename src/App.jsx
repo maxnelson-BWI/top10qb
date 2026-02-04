@@ -24,6 +24,37 @@ const T = {
 };
 
 /* ============================================
+   RESPONSIVE HOOK
+   ============================================ */
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= breakpoint : false
+  );
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, [breakpoint]);
+  return isMobile;
+};
+
+/* ============================================
+   CONTENT WIDTH WRAPPER
+   ============================================
+   Centers content at a comfortable reading
+   width on desktop. Full-width on mobile.    */
+const ContentWrap = ({ children, style: s }) => (
+  <div style={{
+    maxWidth: 900,
+    margin: "0 auto",
+    padding: "0 24px",
+    ...s,
+  }}>
+    {children}
+  </div>
+);
+
+/* ============================================
    SHARED COMPONENTS
    ============================================ */
 const AccentLabel = ({ children, style: s }) => (
@@ -63,10 +94,11 @@ const Movement = ({ dir, spots }) => {
   );
 };
 
-const Nav = ({ page, setPage }) => (
+const Nav = ({ page, setPage, isMobile }) => (
   <div style={{
     display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "14px 24px", borderBottom: `1px solid ${T.border}`, background: T.white,
+    padding: isMobile ? "14px 20px" : "14px 48px",
+    borderBottom: `1px solid ${T.border}`, background: T.white,
     position: "sticky", top: 0, zIndex: 50,
   }}>
     <div onClick={() => setPage({ type: "home" })} style={{ cursor: "pointer" }}>
@@ -97,7 +129,7 @@ const Footer = () => (
   <div style={{
     marginTop: 48, paddingTop: 20, borderTop: `1px solid ${T.border}`,
     display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "20px 24px 32px",
+    padding: "20px 48px 32px",
   }}>
     <span style={{ fontSize: 11, color: "#DDD", fontFamily: T.font }}>© 2026 Top10QB</span>
     <div style={{ display: "flex", gap: 14 }}>
@@ -110,56 +142,113 @@ const Footer = () => (
 /* ============================================
    PAGE: Homepage
    ============================================ */
-const HomePage = ({ setPage }) => (
+const HomePage = ({ setPage, isMobile }) => (
   <div>
-    {/* Hero */}
-    <div style={{
-      position: "relative", minHeight: 340, background: T.heroBg,
-      display: "flex", alignItems: "flex-end", overflow: "hidden",
-    }}>
+    {/* Hero — full-width on all screen sizes */}
+    {isMobile ? (
+      /* ---- MOBILE HERO ----
+         Image as full background, text at bottom
+         with strong gradient protection. No overlap. */
       <div style={{
-        position: "absolute", inset: 0,
-        background: "radial-gradient(ellipse at 65% 50%, rgba(232,93,58,0.03) 0%, transparent 60%)",
-      }} />
-      {/* Hero image */}
-      <div style={{
-        position: "absolute", right: 0, top: 0, width: "65%", height: "100%",
-        backgroundImage: `url(${heroImage})`,
-        backgroundSize: "cover", backgroundPosition: "center right",
-        opacity: 0.85,
-      }} />
-      {/* Left fade */}
-      <div style={{
-        position: "absolute", left: 0, top: 0, width: "55%", height: "100%",
-        background: `linear-gradient(to right, ${T.heroBg} 55%, transparent 100%)`, zIndex: 1,
-      }} />
-      {/* Text */}
-      <div style={{ position: "relative", zIndex: 2, padding: "52px 28px 44px", maxWidth: "60%" }}>
-        <AccentLabel style={{ marginBottom: 14 }}>The World Renowned List</AccentLabel>
+        position: "relative", minHeight: 340, background: T.heroBg,
+        overflow: "hidden",
+      }}>
+        {/* Full-width background image */}
         <div style={{
-          fontSize: 52, fontWeight: 900, fontFamily: T.font, letterSpacing: -3,
-          lineHeight: 0.92, color: T.white,
-        }}>
-          TOP<span style={{ color: T.accent }}>10</span>QB
-        </div>
-        <div style={{ width: 36, height: 3, background: T.accent, marginTop: 18, borderRadius: 2 }} />
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.75,
+        }} />
+        {/* Strong bottom gradient so text is always readable */}
         <div style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase",
-          color: "#555", fontFamily: T.font, marginTop: 14,
-        }}>
-          {CURRENT_WEEK_LABEL}
-        </div>
+          position: "absolute", inset: 0, zIndex: 1,
+          background: `linear-gradient(to top, ${T.heroBg} 28%, rgba(20,20,20,0.55) 60%, rgba(20,20,20,0.15) 100%)`,
+        }} />
+        {/* Subtle radial accent */}
         <div style={{
-          fontSize: 13, color: T.accent, fontFamily: T.font, marginTop: 10,
-          fontStyle: "italic", fontWeight: 600, letterSpacing: 0.3,
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "radial-gradient(ellipse at 50% 30%, rgba(232,93,58,0.04) 0%, transparent 60%)",
+        }} />
+        {/* Text pinned to bottom, full-width */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2,
+          padding: "0 20px 36px",
         }}>
-          Your favorite rapper's favorite top 10 list
+          <AccentLabel style={{ marginBottom: 12 }}>The World Renowned List</AccentLabel>
+          <div style={{
+            fontSize: 48, fontWeight: 900, fontFamily: T.font, letterSpacing: -3,
+            lineHeight: 0.92, color: T.white,
+          }}>
+            TOP<span style={{ color: T.accent }}>10</span>QB
+          </div>
+          <div style={{ width: 36, height: 3, background: T.accent, marginTop: 16, borderRadius: 2 }} />
+          <div style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase",
+            color: "#555", fontFamily: T.font, marginTop: 12,
+          }}>
+            {CURRENT_WEEK_LABEL}
+          </div>
+          <div style={{
+            fontSize: 13, color: T.accent, fontFamily: T.font, marginTop: 10,
+            fontStyle: "italic", fontWeight: 600, letterSpacing: 0.3,
+          }}>
+            Your favorite rapper's favorite top 10 list
+          </div>
         </div>
       </div>
-    </div>
+    ) : (
+      /* ---- DESKTOP HERO ----
+         Original split layout but full-width */
+      <div style={{
+        position: "relative", minHeight: 380, background: T.heroBg,
+        display: "flex", alignItems: "flex-end", overflow: "hidden",
+      }}>
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse at 65% 50%, rgba(232,93,58,0.03) 0%, transparent 60%)",
+        }} />
+        {/* Hero image — right side */}
+        <div style={{
+          position: "absolute", right: 0, top: 0, width: "55%", height: "100%",
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: "cover", backgroundPosition: "center right",
+          opacity: 0.85,
+        }} />
+        {/* Left fade */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, width: "50%", height: "100%",
+          background: `linear-gradient(to right, ${T.heroBg} 60%, transparent 100%)`, zIndex: 1,
+        }} />
+        {/* Text */}
+        <div style={{ position: "relative", zIndex: 2, padding: "52px 48px 48px", maxWidth: 540 }}>
+          <AccentLabel style={{ marginBottom: 14 }}>The World Renowned List</AccentLabel>
+          <div style={{
+            fontSize: 56, fontWeight: 900, fontFamily: T.font, letterSpacing: -3,
+            lineHeight: 0.92, color: T.white,
+          }}>
+            TOP<span style={{ color: T.accent }}>10</span>QB
+          </div>
+          <div style={{ width: 36, height: 3, background: T.accent, marginTop: 18, borderRadius: 2 }} />
+          <div style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase",
+            color: "#555", fontFamily: T.font, marginTop: 14,
+          }}>
+            {CURRENT_WEEK_LABEL}
+          </div>
+          <div style={{
+            fontSize: 14, color: T.accent, fontFamily: T.font, marginTop: 12,
+            fontStyle: "italic", fontWeight: 600, letterSpacing: 0.3,
+          }}>
+            Your favorite rapper's favorite top 10 list
+          </div>
+        </div>
+      </div>
+    )}
 
-    {/* Rankings */}
-    <div style={{ padding: "0 24px" }}>
+    {/* Rankings — centered content */}
+    <ContentWrap>
       <AccentLabel style={{ paddingTop: 24, paddingBottom: 8 }}>This Week's Rankings</AccentLabel>
       {RANKINGS.map((qb, i) => (
         <div key={qb.slug} onClick={() => setPage({ type: "player", slug: qb.slug })}
@@ -238,7 +327,7 @@ const HomePage = ({ setPage }) => (
           </div>
         </div>
       </div>
-    </div>
+    </ContentWrap>
     <Footer />
   </div>
 );
@@ -251,10 +340,10 @@ const PlayerPage = ({ slug, setPage }) => {
   const qb = RANKINGS.find(q => q.slug === slug) || DROPPED.map(d => ({ ...d, rank: "—", team: "—", commentary: "", movement: { dir: "same", spots: 0 } })).find(d => d.slug === slug);
 
   if (!qb) return (
-    <div style={{ padding: 40, textAlign: "center", fontFamily: T.font }}>
+    <ContentWrap style={{ padding: "40px 24px", textAlign: "center", fontFamily: T.font }}>
       <div style={{ fontSize: 14, fontWeight: 700, color: T.dark }}>Player not found</div>
       <div style={{ fontSize: 12, color: T.mid, marginTop: 8, cursor: "pointer" }} onClick={() => setPage({ type: "home" })}>← Back to rankings</div>
-    </div>
+    </ContentWrap>
   );
 
   const history = PLAYER_HISTORY[slug] || [{ week: "Off", rank: qb.rank || "—" }];
@@ -263,7 +352,7 @@ const PlayerPage = ({ slug, setPage }) => {
   const lowest = ranks.length ? Math.max(...ranks.map(h => h.rank)) : "—";
 
   return (
-    <div style={{ padding: "0 24px 40px" }}>
+    <ContentWrap style={{ paddingBottom: 40 }}>
       <div onClick={() => setPage({ type: "home" })} style={{ fontSize: 12, color: T.mid, fontFamily: T.font, cursor: "pointer", padding: "18px 0 0" }}>
         ← Back to rankings
       </div>
@@ -345,7 +434,7 @@ const PlayerPage = ({ slug, setPage }) => {
         ))}
       </div>
       <Footer />
-    </div>
+    </ContentWrap>
   );
 };
 
@@ -359,7 +448,7 @@ const ArchivePage = ({ setPage }) => {
   const filtered = search.length > 1 ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase())) : [];
 
   return (
-    <div style={{ padding: "0 24px 40px" }}>
+    <ContentWrap style={{ paddingBottom: 40 }}>
       <div style={{ padding: "32px 0 24px" }}>
         <AccentLabel style={{ marginBottom: 10 }}>The Vault</AccentLabel>
         <div style={{ fontSize: 28, fontWeight: 900, fontFamily: T.font, letterSpacing: -1.5, color: T.dark }}>Archive</div>
@@ -432,15 +521,15 @@ const ArchivePage = ({ setPage }) => {
         ))}
       </div>
       <Footer />
-    </div>
+    </ContentWrap>
   );
 };
 
 /* ============================================
    PAGE: About
    ============================================ */
-const AboutPage = () => (
-  <div style={{ padding: "0 24px 40px" }}>
+const AboutPage = ({ isMobile }) => (
+  <ContentWrap style={{ paddingBottom: 40 }}>
     <div style={{ padding: "40px 0 28px", borderBottom: `1px solid ${T.border}` }}>
       <AccentLabel style={{ marginBottom: 12 }}>The Man Behind the List</AccentLabel>
       <div style={{ fontSize: 36, fontWeight: 900, fontFamily: T.font, letterSpacing: -2, color: T.dark, lineHeight: 1 }}>
@@ -524,7 +613,7 @@ const AboutPage = () => (
       </div>
     </div>
     <Footer />
-  </div>
+  </ContentWrap>
 );
 
 /* ============================================
@@ -532,19 +621,20 @@ const AboutPage = () => (
    ============================================ */
 export default function App() {
   const [page, setPage] = useState({ type: "home" });
+  const isMobile = useIsMobile();
   useEffect(() => { window.scrollTo(0, 0); }, [page]);
 
   return (
     <div style={{
-      minHeight: "100vh", background: T.white, fontFamily: T.font,
-      maxWidth: 640, margin: "0 auto",
-      boxShadow: "0 0 40px rgba(0,0,0,0.06)",
+      minHeight: "100vh",
+      background: T.white,
+      fontFamily: T.font,
     }}>
-      <Nav page={page} setPage={setPage} />
-      {page.type === "home" && <HomePage setPage={setPage} />}
+      <Nav page={page} setPage={setPage} isMobile={isMobile} />
+      {page.type === "home" && <HomePage setPage={setPage} isMobile={isMobile} />}
       {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} />}
       {page.type === "archive" && <ArchivePage setPage={setPage} />}
-      {page.type === "about" && <AboutPage />}
+      {page.type === "about" && <AboutPage isMobile={isMobile} />}
     </div>
   );
 }
