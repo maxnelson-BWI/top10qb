@@ -65,9 +65,9 @@ const useIsMobile = (breakpoint = 768) => {
    ============================================ */
 const ContentWrap = ({ children, style: s }) => (
   <div style={{
-    maxWidth: 900,
+    maxWidth: 1060,
     margin: "0 auto",
-    padding: "0 24px",
+    padding: "0 40px",
     ...s,
   }}>
     {children}
@@ -304,7 +304,7 @@ const HomePage = ({ setPage, isMobile }) => (
           position: "absolute", inset: 0,
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "55% center",
+          backgroundPosition: "62% center",
           opacity: 0.8,
         }} />
         <HeroTextures isMobile={true} />
@@ -352,7 +352,7 @@ const HomePage = ({ setPage, isMobile }) => (
           position: "absolute", right: 0, top: 0, width: "68%", height: "100%",
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "60% center",
+          backgroundPosition: "60% 15%",
           opacity: 0.9,
         }} />
         {/* Background textures */}
@@ -395,11 +395,11 @@ const HomePage = ({ setPage, isMobile }) => (
 
     {/* Rankings — centered content */}
     <ContentWrap>
-      <AccentLabel style={{ paddingTop: 24, paddingBottom: 8 }}>This Week's Rankings</AccentLabel>
+      <AccentLabel style={{ paddingTop: isMobile ? 24 : 36, paddingBottom: isMobile ? 8 : 12 }}>This Week's Rankings</AccentLabel>
       {RANKINGS.map((qb, i) => (
         <div key={qb.slug} onClick={() => setPage({ type: "player", slug: qb.slug })}
           style={{
-            display: "flex", gap: 14, padding: i === 0 ? "20px 0 16px" : "14px 0",
+            display: "flex", gap: isMobile ? 14 : 20, padding: isMobile ? "14px 0" : "18px 0",
             borderBottom: `1px solid ${T.border}`, alignItems: "center", cursor: "pointer",
             transition: "background 0.15s",
           }}
@@ -407,16 +407,16 @@ const HomePage = ({ setPage, isMobile }) => (
           onMouseLeave={e => e.currentTarget.style.background = "transparent"}
         >
           <div style={{
-            fontSize: i === 0 ? 56 : 40, fontWeight: 900, fontFamily: T.font,
-            color: "#ECECEC", lineHeight: 1, minWidth: 56,
+            fontSize: isMobile ? 36 : 42, fontWeight: 900, fontFamily: T.font,
+            color: "#ECECEC", lineHeight: 1, minWidth: isMobile ? 48 : 60,
             letterSpacing: -3, textAlign: "right", paddingRight: 4,
           }}>
             {String(qb.rank).padStart(2, "0")}
           </div>
-          <Avatar name={qb.name} slug={qb.slug} size={i === 0 ? 56 : 46} />
+          <Avatar name={qb.name} slug={qb.slug} size={isMobile ? 42 : 50} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: i === 0 ? 16 : 14, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>
+              <span style={{ fontSize: isMobile ? 14 : 15, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>
                 {qb.name}
               </span>
               <span style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, fontWeight: 500 }}>{qb.team}</span>
@@ -428,7 +428,7 @@ const HomePage = ({ setPage, isMobile }) => (
                 }}>{qb.badge}</span>
               )}
             </div>
-            <div style={{ fontSize: 12, color: T.mid, fontFamily: T.font, marginTop: 4, lineHeight: 1.5 }}>
+            <div style={{ fontSize: isMobile ? 12 : 13, color: T.mid, fontFamily: T.font, marginTop: 4, lineHeight: 1.5 }}>
               {qb.commentary}
             </div>
           </div>
@@ -482,7 +482,7 @@ const HomePage = ({ setPage, isMobile }) => (
 /* ============================================
    PAGE: Player
    ============================================ */
-const PlayerPage = ({ slug, setPage }) => {
+const PlayerPage = ({ slug, setPage, isMobile }) => {
   const [timeRange, setTimeRange] = useState("season");
   const qb = RANKINGS.find(q => q.slug === slug) || DROPPED.map(d => ({ ...d, rank: "—", team: "—", commentary: "", movement: { dir: "same", spots: 0 } })).find(d => d.slug === slug);
 
@@ -588,7 +588,7 @@ const PlayerPage = ({ slug, setPage }) => {
 /* ============================================
    PAGE: Archive
    ============================================ */
-const ArchivePage = ({ setPage }) => {
+const ArchivePage = ({ setPage, isMobile }) => {
   const [search, setSearch] = useState("");
   const [season, setSeason] = useState("2026");
   const allPlayers = [...RANKINGS.map(q => ({ name: q.name, slug: q.slug })), ...DROPPED.map(d => ({ name: d.name, slug: d.slug }))];
@@ -645,7 +645,7 @@ const ArchivePage = ({ setPage }) => {
       </div>
 
       <AccentLabel style={{ marginBottom: 14 }}>Week Cards</AccentLabel>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr", gap: isMobile ? 12 : 16 }}>
         {ARCHIVE_WEEKS.map(w => (
           <div key={w.id} onClick={() => setPage({ type: "home" })} style={{
             border: `1px solid ${T.border}`, borderRadius: 10, padding: "18px 16px", cursor: "pointer",
@@ -785,8 +785,8 @@ export default function App() {
     }}>
       <Nav page={page} setPage={setPage} isMobile={isMobile} />
       {page.type === "home" && <HomePage setPage={setPage} isMobile={isMobile} />}
-      {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} />}
-      {page.type === "archive" && <ArchivePage setPage={setPage} />}
+      {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} isMobile={isMobile} />}
+      {page.type === "archive" && <ArchivePage setPage={setPage} isMobile={isMobile} />}
       {page.type === "about" && <AboutPage isMobile={isMobile} />}
     </div>
   );
