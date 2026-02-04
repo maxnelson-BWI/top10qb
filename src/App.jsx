@@ -299,12 +299,13 @@ const HomePage = ({ setPage, isMobile }) => (
         position: "relative", minHeight: 340, background: T.heroBg,
         overflow: "hidden",
       }}>
-        {/* Full-width background image — shifted to show all players */}
+        {/* Full-width background image — use 160% width to zoom out and show all players */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${heroImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "62% center",
+          backgroundSize: "150% auto",
+          backgroundPosition: "75% 15%",
+          backgroundRepeat: "no-repeat",
           opacity: 0.8,
         }} />
         <HeroTextures isMobile={true} />
@@ -352,7 +353,7 @@ const HomePage = ({ setPage, isMobile }) => (
           position: "absolute", right: 0, top: 0, width: "68%", height: "100%",
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "60% 15%",
+          backgroundPosition: "60% 5%",
           opacity: 0.9,
         }} />
         {/* Background textures */}
@@ -594,87 +595,182 @@ const ArchivePage = ({ setPage, isMobile }) => {
   const allPlayers = [...RANKINGS.map(q => ({ name: q.name, slug: q.slug })), ...DROPPED.map(d => ({ name: d.name, slug: d.slug }))];
   const filtered = search.length > 1 ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase())) : [];
 
+  // Map last names to slugs for archive card headshots
+  const nameToSlug = {};
+  RANKINGS.forEach(q => { const last = q.name.split(" ").pop(); nameToSlug[last] = q.slug; });
+  DROPPED.forEach(d => { const last = d.name.split(" ").pop(); nameToSlug[last] = d.slug; });
+
   return (
-    <ContentWrap style={{ paddingBottom: 40 }}>
-      <div style={{ padding: "32px 0 24px" }}>
-        <AccentLabel style={{ marginBottom: 10 }}>The Vault</AccentLabel>
-        <div style={{ fontSize: 28, fontWeight: 900, fontFamily: T.font, letterSpacing: -1.5, color: T.dark }}>Archive</div>
-        <div style={{ fontSize: 13, color: T.mid, fontFamily: T.font, marginTop: 4 }}>Every list. Every bad opinion. Preserved forever.</div>
-      </div>
-
-      <AccentLabel style={{ marginBottom: 8 }}>Find a Player</AccentLabel>
-      <div style={{ position: "relative", marginBottom: 28 }}>
-        <input type="text" placeholder="Search by name..." value={search} onChange={e => setSearch(e.target.value)}
-          style={{
-            width: "100%", padding: "12px 16px", fontSize: 13, fontFamily: T.font,
-            border: `1px solid ${T.border}`, borderRadius: 8, outline: "none", background: "#FAFAFA", boxSizing: "border-box",
-          }}
-          onFocus={e => e.target.style.borderColor = "#CCC"}
-          onBlur={e => { if (!search) e.target.style.borderColor = T.border; }}
-        />
-        {filtered.length > 0 && (
+    <div>
+      {/* Archive hero banner */}
+      <div style={{
+        background: T.heroBg, position: "relative", overflow: "hidden",
+        padding: isMobile ? "36px 20px 32px" : "48px 48px 40px",
+      }}>
+        {/* Subtle dot pattern */}
+        <svg style={{ position: "absolute", inset: 0, opacity: 0.04, width: "100%", height: "100%" }}>
+          <defs>
+            <pattern id="archDots" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="0.8" fill={T.accent} />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#archDots)" />
+        </svg>
+        {/* Ghosted text */}
+        <div style={{
+          position: "absolute", right: isMobile ? -20 : 40, top: "50%", transform: "translateY(-50%)",
+          opacity: 0.03, pointerEvents: "none",
+        }}>
+          <span style={{ fontSize: isMobile ? 120 : 180, fontWeight: 900, fontFamily: T.font, color: T.white, letterSpacing: -8 }}>
+            VAULT
+          </span>
+        </div>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1060, margin: "0 auto" }}>
+          <AccentLabel style={{ marginBottom: 10 }}>The Vault</AccentLabel>
           <div style={{
-            position: "absolute", top: "100%", left: 0, right: 0, background: T.white,
-            border: `1px solid ${T.border}`, borderRadius: 8, marginTop: 4, zIndex: 10,
-            boxShadow: "0 4px 16px rgba(0,0,0,0.06)", overflow: "hidden",
-          }}>
-            {filtered.map(p => (
-              <div key={p.slug} onClick={() => { setSearch(""); setPage({ type: "player", slug: p.slug }); }}
-                style={{
-                  padding: "10px 16px", fontSize: 13, fontFamily: T.font, cursor: "pointer",
-                  borderBottom: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 10,
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = "#FAFAFA"}
-                onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-              >
-                <Avatar name={p.name} slug={p.slug} size={24} />
-                {p.name}
-              </div>
-            ))}
+            fontSize: isMobile ? 28 : 36, fontWeight: 900, fontFamily: T.font,
+            letterSpacing: -1.5, color: T.white,
+          }}>Archive</div>
+          <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, marginTop: 6 }}>
+            Every list. Every bad opinion. Preserved forever.
           </div>
-        )}
+        </div>
       </div>
 
-      <div style={{ display: "flex", gap: 6, marginBottom: 20 }}>
-        {["2026"].map(s => (
-          <button key={s} onClick={() => setSeason(s)} style={{
-            padding: "7px 16px", fontSize: 11, fontWeight: 700, fontFamily: T.font,
-            background: T.dark, color: T.white, border: `1px solid ${T.dark}`, borderRadius: 6, cursor: "pointer",
-          }}>{s} Season</button>
-        ))}
-      </div>
-
-      <AccentLabel style={{ marginBottom: 14 }}>Week Cards</AccentLabel>
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr", gap: isMobile ? 12 : 16 }}>
-        {ARCHIVE_WEEKS.map(w => (
-          <div key={w.id} onClick={() => setPage({ type: "home" })} style={{
-            border: `1px solid ${T.border}`, borderRadius: 10, padding: "18px 16px", cursor: "pointer",
-            transition: "border-color 0.15s, box-shadow 0.15s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#DDD"; e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.03)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = "none"; }}
-          >
-            <div style={{ fontSize: 17, fontWeight: 900, fontFamily: T.font, letterSpacing: -0.5, color: T.dark }}>{w.label}</div>
-            <div style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, marginTop: 2 }}>{w.date}</div>
-            <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
-              {w.top3.map((name, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 16, fontWeight: 900, fontFamily: T.font, color: "#DDD", minWidth: 16, letterSpacing: -1 }}>{i + 1}</span>
-                  <div style={{
-                    width: 24, height: 24, borderRadius: 5, background: "#ECECEC", flexShrink: 0,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}>
-                    <span style={{ fontSize: 8, fontWeight: 700, color: "#CCC", fontFamily: T.font }}>{name[0]}</span>
+      <ContentWrap style={{ paddingBottom: 40 }}>
+        {/* Search section with subtle background */}
+        <div style={{
+          background: "#FAFAFA", borderRadius: 12, padding: isMobile ? "20px 16px" : "24px 24px",
+          marginTop: 28, marginBottom: 28,
+        }}>
+          <AccentLabel style={{ marginBottom: 10 }}>Find a Player</AccentLabel>
+          <div style={{ position: "relative" }}>
+            <input type="text" placeholder="Search by name..." value={search} onChange={e => setSearch(e.target.value)}
+              style={{
+                width: "100%", padding: "12px 16px", fontSize: 13, fontFamily: T.font,
+                border: `1px solid ${T.border}`, borderRadius: 8, outline: "none",
+                background: T.white, boxSizing: "border-box",
+              }}
+              onFocus={e => e.target.style.borderColor = "#CCC"}
+              onBlur={e => { if (!search) e.target.style.borderColor = T.border; }}
+            />
+            {filtered.length > 0 && (
+              <div style={{
+                position: "absolute", top: "100%", left: 0, right: 0, background: T.white,
+                border: `1px solid ${T.border}`, borderRadius: 8, marginTop: 4, zIndex: 10,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.06)", overflow: "hidden",
+              }}>
+                {filtered.map(p => (
+                  <div key={p.slug} onClick={() => { setSearch(""); setPage({ type: "player", slug: p.slug }); }}
+                    style={{
+                      padding: "10px 16px", fontSize: 13, fontFamily: T.font, cursor: "pointer",
+                      borderBottom: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 10,
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = "#FAFAFA"}
+                    onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+                  >
+                    <Avatar name={p.name} slug={p.slug} size={24} />
+                    {p.name}
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 700, fontFamily: T.font, color: T.dark }}>{name}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          {["2026"].map(s => (
+            <button key={s} onClick={() => setSeason(s)} style={{
+              padding: "7px 16px", fontSize: 11, fontWeight: 700, fontFamily: T.font,
+              background: T.dark, color: T.white, border: `1px solid ${T.dark}`, borderRadius: 6, cursor: "pointer",
+            }}>{s} Season</button>
+          ))}
+          <div style={{ flex: 1, height: 1, background: T.border }} />
+        </div>
+
+        <AccentLabel style={{ marginBottom: 14 }}>Week Cards</AccentLabel>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr", gap: isMobile ? 12 : 16 }}>
+          {ARCHIVE_WEEKS.map(w => (
+            <div key={w.id} onClick={() => setPage({ type: "home" })} style={{
+              border: `1px solid ${T.border}`, borderRadius: 10,
+              padding: isMobile ? "16px 14px" : "20px 18px",
+              cursor: "pointer", transition: "border-color 0.15s, box-shadow 0.15s",
+              background: T.white,
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#DDD"; e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.04)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = "none"; }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <div>
+                  <div style={{ fontSize: 17, fontWeight: 900, fontFamily: T.font, letterSpacing: -0.5, color: T.dark }}>{w.label}</div>
+                  <div style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, marginTop: 2 }}>{w.date}</div>
                 </div>
-              ))}
+                {/* Stacked headshot cluster */}
+                <div style={{ display: "flex", marginRight: 4 }}>
+                  {w.top3.slice(0, 3).map((name, i) => {
+                    const slug = nameToSlug[name];
+                    return (
+                      <div key={i} style={{
+                        marginLeft: i === 0 ? 0 : -8,
+                        zIndex: 3 - i,
+                        border: "2px solid white",
+                        borderRadius: 6,
+                        overflow: "hidden",
+                      }}>
+                        <Avatar name={name} slug={slug} size={24} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div style={{
+                marginTop: 14, display: "flex", flexDirection: "column", gap: 6,
+                borderTop: `1px solid ${T.border}`, paddingTop: 12,
+              }}>
+                {w.top3.map((name, i) => {
+                  const slug = nameToSlug[name];
+                  return (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{
+                        fontSize: 14, fontWeight: 900, fontFamily: T.font,
+                        color: i === 0 ? T.accent : "#DDD", minWidth: 14, letterSpacing: -1,
+                      }}>{i + 1}</span>
+                      <Avatar name={name} slug={slug} size={22} />
+                      <span style={{ fontSize: 13, fontWeight: 700, fontFamily: T.font, color: T.dark }}>{name}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom accent bar */}
+        <div style={{
+          marginTop: 36, padding: "20px 24px", background: T.heroBg, borderRadius: 10,
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }}>
+          <div>
+            <div style={{ fontSize: 11, color: "#555", fontFamily: T.font, letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 700 }}>
+              Total Weeks Ranked
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 900, fontFamily: T.font, color: T.white, letterSpacing: -1, marginTop: 2 }}>
+              {ARCHIVE_WEEKS.length}
             </div>
           </div>
-        ))}
-      </div>
-      <Footer />
-    </ContentWrap>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 11, color: "#555", fontFamily: T.font, letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 700 }}>
+              Since
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 700, fontFamily: T.font, color: T.accent, marginTop: 4 }}>
+              Feb 2026
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </ContentWrap>
+    </div>
   );
 };
 
