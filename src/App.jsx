@@ -6,6 +6,7 @@ import {
 } from "./rankings-data.js";
 import "./index.css";
 import heroImage from "./assets/hero.png";
+import rankmasterImage from "./assets/rankmaster.png";
 
 /* ============================================
    DESIGN TOKENS
@@ -24,14 +25,24 @@ const T = {
 };
 
 /* ============================================
+   TEAM COLORS (for ranking row accent bars)
+   ============================================ */
+const TEAM_COLORS = {
+  BAL: "#241773", KC: "#E31837", BUF: "#00338D", CIN: "#FB4F14",
+  PHI: "#004C54", HOU: "#03202F", WAS: "#773141", SF: "#AA0000",
+  DAL: "#003594", SEA: "#002244", CAR: "#0085CA", MIA: "#008E97",
+  LAC: "#0080C6", MIN: "#4F2683", GB: "#203731", DET: "#0076B6",
+  TB: "#D50A0A", ATL: "#A71930", NO: "#D3BC8D", ARI: "#97233F",
+  LAR: "#003594", CHI: "#0B162A", NYJ: "#125740", NYG: "#0B2265",
+  PIT: "#FFB612", DEN: "#FB4F14", JAX: "#006778", TEN: "#4B92DB",
+  IND: "#002C5F", NE: "#002244", CLE: "#311D00", LV: "#A5ACAF",
+};
+
+/* ============================================
    PLAYER HEADSHOTS (ESPN CDN)
-   ============================================
-   These are publicly available headshot images.
-   To add a new player, find their ESPN player page
-   and grab the ID from the URL.                    */
+   ============================================ */
 const espnHead = (id) => `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${id}.png&w=96&h=70&cb=1`;
 const HEADSHOTS = {
-  // Current ranked / dropped / worst
   "lamar-jackson": espnHead(3916387),
   "patrick-mahomes": espnHead(3139477),
   "josh-allen": espnHead(3918298),
@@ -45,7 +56,6 @@ const HEADSHOTS = {
   "bryce-young": espnHead(4685720),
   "tua-tagovailoa": espnHead(4241479),
   "justin-herbert": espnHead(4038941),
-  // Expanded search pool (top 30 by 2025 passing yards)
   "matthew-stafford": espnHead(12483),
   "jared-goff": espnHead(3046779),
   "drake-maye": espnHead(4431452),
@@ -203,13 +213,102 @@ const Footer = () => (
 );
 
 /* ============================================
-   HERO BACKGROUND TEXTURES
+   PAGE BACKGROUND TEXTURES
    ============================================
-   Subtle decorative elements to fill the gap
-   between the text and player images.           */
+   Subtle orange accent elements in the white
+   space margins flanking the content area.
+   Same visual language as the hero section.    */
+const PageBackgroundTextures = ({ isMobile }) => {
+  if (isMobile) return null;
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+      {/* Diagonal accent lines across full page */}
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.05 }}>
+        <defs>
+          <pattern id="pageDiag" width="50" height="50" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+            <line x1="0" y1="0" x2="0" y2="50" stroke={T.accent} strokeWidth="0.6" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#pageDiag)" />
+      </svg>
+
+      {/* Left vertical accent line */}
+      <div style={{
+        position: "absolute", left: "calc(50% - 540px)", top: 0, bottom: 0, width: 1,
+        background: "linear-gradient(to bottom, transparent 20%, rgba(232,93,58,0.18) 50%, transparent 80%)",
+      }} />
+      {/* Right vertical accent line */}
+      <div style={{
+        position: "absolute", right: "calc(50% - 540px)", top: 0, bottom: 0, width: 1,
+        background: "linear-gradient(to bottom, transparent 20%, rgba(232,93,58,0.18) 50%, transparent 80%)",
+      }} />
+
+      {/* Left bracket accents */}
+      <div style={{
+        position: "absolute", left: "calc(50% - 560px)", top: "45%", width: 24, height: 50,
+        borderLeft: "2px solid rgba(232,93,58,0.18)",
+        borderTop: "2px solid rgba(232,93,58,0.18)",
+        borderBottom: "2px solid rgba(232,93,58,0.18)",
+      }} />
+      <div style={{
+        position: "absolute", left: "calc(50% - 580px)", top: "65%", width: 16, height: 30,
+        borderLeft: "2px solid rgba(232,93,58,0.12)",
+        borderTop: "2px solid rgba(232,93,58,0.12)",
+        borderBottom: "2px solid rgba(232,93,58,0.12)",
+      }} />
+
+      {/* Right bracket accents */}
+      <div style={{
+        position: "absolute", right: "calc(50% - 560px)", top: "55%", width: 24, height: 50,
+        borderRight: "2px solid rgba(232,93,58,0.18)",
+        borderTop: "2px solid rgba(232,93,58,0.18)",
+        borderBottom: "2px solid rgba(232,93,58,0.18)",
+      }} />
+      <div style={{
+        position: "absolute", right: "calc(50% - 580px)", top: "35%", width: 16, height: 30,
+        borderRight: "2px solid rgba(232,93,58,0.12)",
+        borderTop: "2px solid rgba(232,93,58,0.12)",
+        borderBottom: "2px solid rgba(232,93,58,0.12)",
+      }} />
+
+      {/* Horizontal accent lines in margins */}
+      <div style={{
+        position: "absolute", left: "2%", right: "calc(50% + 520px)", top: "50%", height: 1,
+        background: "linear-gradient(to right, transparent, rgba(232,93,58,0.15), transparent)",
+      }} />
+      <div style={{
+        position: "absolute", right: "2%", left: "calc(50% + 520px)", top: "60%", height: 1,
+        background: "linear-gradient(to left, transparent, rgba(232,93,58,0.15), transparent)",
+      }} />
+
+      {/* Dot grid in left margin */}
+      <svg style={{ position: "absolute", left: 0, top: 0, width: "calc(50% - 520px)", height: "100%", opacity: 0.05 }}>
+        <defs>
+          <pattern id="pageDotL" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="0.9" fill={T.accent} />
+          </pattern>
+        </defs>
+        <rect x="40%" y="20%" width="50%" height="60%" fill="url(#pageDotL)" />
+      </svg>
+
+      {/* Dot grid in right margin */}
+      <svg style={{ position: "absolute", right: 0, top: 0, width: "calc(50% - 520px)", height: "100%", opacity: 0.05 }}>
+        <defs>
+          <pattern id="pageDotR" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="0.9" fill={T.accent} />
+          </pattern>
+        </defs>
+        <rect x="10%" y="20%" width="50%" height="60%" fill="url(#pageDotR)" />
+      </svg>
+    </div>
+  );
+};
+
+/* ============================================
+   HERO BACKGROUND TEXTURES
+   ============================================ */
 const HeroTextures = ({ isMobile }) => (
   <>
-    {/* Diagonal accent lines — stronger opacity, positioned in the visible gap */}
     {!isMobile && (
       <svg style={{
         position: "absolute", left: "25%", top: 0, width: "40%", height: "100%",
@@ -223,8 +322,6 @@ const HeroTextures = ({ isMobile }) => (
         <rect width="100%" height="100%" fill="url(#diag)" />
       </svg>
     )}
-
-    {/* Large faded "10" watermark — more visible */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "26%", top: "50%", transform: "translateY(-55%)",
@@ -233,13 +330,9 @@ const HeroTextures = ({ isMobile }) => (
         <span style={{
           fontSize: 300, fontWeight: 900, fontFamily: T.font,
           color: T.white, letterSpacing: -20, lineHeight: 0.8,
-        }}>
-          10
-        </span>
+        }}>10</span>
       </div>
     )}
-
-    {/* Accent dot grid — more visible, in gap zone */}
     {!isMobile && (
       <svg style={{
         position: "absolute", left: "20%", top: 0, width: "45%", height: "100%",
@@ -253,8 +346,6 @@ const HeroTextures = ({ isMobile }) => (
         <rect x="10%" y="10%" width="80%" height="80%" fill="url(#dots)" />
       </svg>
     )}
-
-    {/* Horizontal accent line — stronger */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "20%", right: "42%", top: "72%",
@@ -262,8 +353,6 @@ const HeroTextures = ({ isMobile }) => (
         zIndex: 3,
       }} />
     )}
-
-    {/* Top horizontal accent line */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "25%", right: "50%", top: "28%",
@@ -271,8 +360,6 @@ const HeroTextures = ({ isMobile }) => (
         zIndex: 3,
       }} />
     )}
-
-    {/* Bracket accent shape — stronger */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "34%", top: "20%", zIndex: 3, opacity: 0.1,
@@ -282,8 +369,6 @@ const HeroTextures = ({ isMobile }) => (
         borderBottom: `2px solid ${T.accent}`,
       }} />
     )}
-
-    {/* Small right bracket */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "42%", top: "60%", zIndex: 3, opacity: 0.08,
@@ -293,8 +378,6 @@ const HeroTextures = ({ isMobile }) => (
         borderBottom: `2px solid ${T.accent}`,
       }} />
     )}
-
-    {/* Vertical accent line */}
     {!isMobile && (
       <div style={{
         position: "absolute", left: "38%", top: "15%", bottom: "20%",
@@ -312,14 +395,10 @@ const HomePage = ({ setPage, isMobile }) => (
   <div>
     {/* Hero — full-width on all screen sizes */}
     {isMobile ? (
-      /* ---- MOBILE HERO ----
-         Image as full background, shifted to show
-         all 3 QBs, text at bottom with gradient.   */
       <div style={{
         position: "relative", minHeight: 340, background: T.heroBg,
         overflow: "hidden",
       }}>
-        {/* Full-width background image — use 160% width to zoom out and show all players */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${heroImage})`,
@@ -329,12 +408,10 @@ const HomePage = ({ setPage, isMobile }) => (
           opacity: 0.8,
         }} />
         <HeroTextures isMobile={true} />
-        {/* Strong bottom gradient so text is always readable */}
         <div style={{
           position: "absolute", inset: 0, zIndex: 2,
           background: `linear-gradient(to top, ${T.heroBg} 25%, rgba(20,20,20,0.5) 55%, rgba(20,20,20,0.1) 100%)`,
         }} />
-        {/* Text pinned to bottom */}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3,
           padding: "0 20px 36px",
@@ -362,13 +439,10 @@ const HomePage = ({ setPage, isMobile }) => (
         </div>
       </div>
     ) : (
-      /* ---- DESKTOP HERO ----
-         Split layout with textures in the gap      */
       <div style={{
         position: "relative", minHeight: 400, background: T.heroBg,
         display: "flex", alignItems: "flex-end", overflow: "hidden",
       }}>
-        {/* Hero image — wider coverage, shows all players */}
         <div style={{
           position: "absolute", right: 0, top: 0, width: "68%", height: "100%",
           backgroundImage: `url(${heroImage})`,
@@ -376,19 +450,15 @@ const HomePage = ({ setPage, isMobile }) => (
           backgroundPosition: "60% 5%",
           opacity: 0.9,
         }} />
-        {/* Background textures */}
         <HeroTextures isMobile={false} />
-        {/* Left fade — narrower to reveal textures in the gap */}
         <div style={{
           position: "absolute", left: 0, top: 0, width: "42%", height: "100%",
           background: `linear-gradient(to right, ${T.heroBg} 50%, transparent 100%)`, zIndex: 2,
         }} />
-        {/* Subtle right edge fade */}
         <div style={{
           position: "absolute", right: 0, top: 0, width: "10%", height: "100%",
           background: `linear-gradient(to left, rgba(20,20,20,0.4), transparent)`, zIndex: 2,
         }} />
-        {/* Text */}
         <div style={{ position: "relative", zIndex: 3, padding: "52px 48px 48px", maxWidth: 500 }}>
           <AccentLabel style={{ marginBottom: 14 }}>The World Renowned List</AccentLabel>
           <div style={{
@@ -415,47 +485,75 @@ const HomePage = ({ setPage, isMobile }) => (
     )}
 
     {/* Rankings — centered content */}
-    <ContentWrap>
+    <ContentWrap style={{ position: "relative", zIndex: 1 }}>
       <AccentLabel style={{ paddingTop: isMobile ? 24 : 36, paddingBottom: isMobile ? 8 : 12 }}>This Week's Rankings</AccentLabel>
-      {RANKINGS.map((qb, i) => (
-        <div key={qb.slug} onClick={() => setPage({ type: "player", slug: qb.slug })}
-          style={{
-            display: "flex", gap: isMobile ? 14 : 20, padding: isMobile ? "14px 0" : "18px 0",
-            borderBottom: `1px solid ${T.border}`, alignItems: "center", cursor: "pointer",
-            transition: "background 0.15s",
-          }}
-          onMouseEnter={e => e.currentTarget.style.background = "#FAFAFA"}
-          onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-        >
-          <div style={{
-            fontSize: isMobile ? 36 : 42, fontWeight: 900, fontFamily: T.font,
-            color: "#ECECEC", lineHeight: 1, minWidth: isMobile ? 48 : 60,
-            letterSpacing: -3, textAlign: "right", paddingRight: 4,
-          }}>
-            {String(qb.rank).padStart(2, "0")}
-          </div>
-          <Avatar name={qb.name} slug={qb.slug} size={isMobile ? 42 : 50} />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: isMobile ? 14 : 15, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>
-                {qb.name}
-              </span>
-              <span style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, fontWeight: 500 }}>{qb.team}</span>
-              {qb.badge && (
-                <span style={{
-                  fontSize: 8, fontWeight: 700, fontFamily: T.font,
-                  border: `1.5px solid ${T.dark}`, color: T.dark,
-                  padding: "1px 5px", borderRadius: 3, letterSpacing: 1,
-                }}>{qb.badge}</span>
+      {RANKINGS.map((qb, i) => {
+        const teamColor = TEAM_COLORS[qb.team] || "#999";
+        return (
+          <div key={qb.slug} onClick={() => setPage({ type: "player", slug: qb.slug })}
+            style={{
+              display: "flex", gap: isMobile ? 14 : 20, padding: isMobile ? "14px 0" : "18px 0",
+              borderBottom: `1px solid ${T.border}`, alignItems: "center", cursor: "pointer",
+              transition: "background 0.15s", position: "relative",
+              paddingLeft: isMobile ? 0 : 12,
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = "#FAFAFA"}
+            onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+          >
+            {/* Team color accent bar */}
+            {!isMobile && (
+              <div style={{
+                position: "absolute", left: 0, top: 12, bottom: 12, width: 3,
+                background: teamColor, borderRadius: 2, opacity: 0.6,
+              }} />
+            )}
+            <div style={{
+              fontSize: isMobile ? 36 : 42, fontWeight: 900, fontFamily: T.font,
+              color: "#ECECEC", lineHeight: 1, minWidth: isMobile ? 48 : 60,
+              letterSpacing: -3, textAlign: "right", paddingRight: 4,
+            }}>
+              {String(qb.rank).padStart(2, "0")}
+            </div>
+            <Avatar name={qb.name} slug={qb.slug} size={isMobile ? 42 : 50} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ fontSize: isMobile ? 14 : 15, fontWeight: 800, fontFamily: T.font, letterSpacing: -0.3, color: T.dark }}>
+                  {qb.name}
+                </span>
+                <span style={{ fontSize: 11, color: "#CCC", fontFamily: T.font, fontWeight: 500 }}>{qb.team}</span>
+                {qb.badge && (
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, fontFamily: T.font,
+                    border: `1.5px solid ${T.dark}`, color: T.dark,
+                    padding: "1px 5px", borderRadius: 3, letterSpacing: 1,
+                  }}>{qb.badge}</span>
+                )}
+              </div>
+              <div style={{ fontSize: isMobile ? 12 : 13, color: T.mid, fontFamily: T.font, marginTop: 4, lineHeight: 1.5 }}>
+                {qb.commentary}
+              </div>
+              {/* Stat line */}
+              {qb.stats && (
+                <div style={{
+                  fontSize: 10, color: "#CCC", fontFamily: T.font, marginTop: 6,
+                  letterSpacing: 0.8, fontWeight: 600,
+                }}>
+                  {qb.stats}
+                </div>
               )}
             </div>
-            <div style={{ fontSize: isMobile ? 12 : 13, color: T.mid, fontFamily: T.font, marginTop: 4, lineHeight: 1.5 }}>
-              {qb.commentary}
+            {/* Last week rank + movement */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+              {qb.prevRank && (
+                <span style={{ fontSize: 9, color: "#CCC", fontFamily: T.font, fontWeight: 500, whiteSpace: "nowrap" }}>
+                  LW: #{qb.prevRank}
+                </span>
+              )}
+              <Movement {...qb.movement} />
             </div>
           </div>
-          <Movement {...qb.movement} />
-        </div>
-      ))}
+        );
+      })}
 
       {/* Dropped */}
       <div style={{ padding: "18px 0" }}>
@@ -520,7 +618,7 @@ const PlayerPage = ({ slug, setPage, isMobile }) => {
   const lowest = ranks.length ? Math.max(...ranks.map(h => h.rank)) : "—";
 
   return (
-    <ContentWrap style={{ paddingBottom: 40 }}>
+    <ContentWrap style={{ paddingBottom: 40, position: "relative", zIndex: 1 }}>
       <div onClick={() => setPage({ type: "home" })} style={{ fontSize: 12, color: T.mid, fontFamily: T.font, cursor: "pointer", padding: "18px 0 0" }}>
         ← Back to rankings
       </div>
@@ -612,13 +710,10 @@ const PlayerPage = ({ slug, setPage, isMobile }) => {
 const ArchivePage = ({ setPage, isMobile }) => {
   const [search, setSearch] = useState("");
   const [season, setSeason] = useState("2026");
-  // Full searchable player database — top 30 QBs by 2025 passing yards
   const ALL_SEARCHABLE = [
-    // From RANKINGS / DROPPED / WORST (already in data)
     ...RANKINGS.map(q => ({ name: q.name, slug: q.slug, team: q.team })),
     ...DROPPED.map(d => ({ name: d.name, slug: d.slug, team: "—" })),
     { name: WORST.name, slug: WORST.slug, team: WORST.team },
-    // Additional QBs (2025 season passing leaders not already above)
     { name: "Matthew Stafford", slug: "matthew-stafford", team: "LAR" },
     { name: "Jared Goff", slug: "jared-goff", team: "DET" },
     { name: "Drake Maye", slug: "drake-maye", team: "NE" },
@@ -637,24 +732,20 @@ const ArchivePage = ({ setPage, isMobile }) => {
     { name: "Russell Wilson", slug: "russell-wilson", team: "PIT" },
     { name: "Anthony Richardson", slug: "anthony-richardson", team: "IND" },
   ];
-  // Deduplicate by slug
   const seen = new Set();
   const allPlayers = ALL_SEARCHABLE.filter(p => { if (seen.has(p.slug)) return false; seen.add(p.slug); return true; });
   const filtered = search.length > 1 ? allPlayers.filter(p => p.name.toLowerCase().includes(search.toLowerCase())) : [];
 
-  // Map last names to slugs for archive card headshots
   const nameToSlug = {};
   RANKINGS.forEach(q => { const last = q.name.split(" ").pop(); nameToSlug[last] = q.slug; });
   DROPPED.forEach(d => { const last = d.name.split(" ").pop(); nameToSlug[last] = d.slug; });
 
   return (
     <div>
-      {/* Archive hero banner */}
       <div style={{
         background: T.heroBg, position: "relative", overflow: "hidden",
         padding: isMobile ? "36px 20px 32px" : "48px 48px 40px",
       }}>
-        {/* Subtle dot pattern */}
         <svg style={{ position: "absolute", inset: 0, opacity: 0.04, width: "100%", height: "100%" }}>
           <defs>
             <pattern id="archDots" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -663,7 +754,6 @@ const ArchivePage = ({ setPage, isMobile }) => {
           </defs>
           <rect width="100%" height="100%" fill="url(#archDots)" />
         </svg>
-        {/* Ghosted text */}
         <div style={{
           position: "absolute", right: isMobile ? -20 : 40, top: "50%", transform: "translateY(-50%)",
           opacity: 0.03, pointerEvents: "none",
@@ -684,8 +774,7 @@ const ArchivePage = ({ setPage, isMobile }) => {
         </div>
       </div>
 
-      <ContentWrap style={{ paddingBottom: 40 }}>
-        {/* Search section with subtle background */}
+      <ContentWrap style={{ paddingBottom: 40, position: "relative", zIndex: 1 }}>
         <div style={{
           background: "#FAFAFA", borderRadius: 12, padding: isMobile ? "20px 16px" : "24px 24px",
           marginTop: 28, marginBottom: 28,
@@ -776,7 +865,6 @@ const ArchivePage = ({ setPage, isMobile }) => {
           ))}
         </div>
 
-        {/* Bottom accent bar */}
         <div style={{
           marginTop: 36, padding: "20px 24px", background: T.heroBg, borderRadius: 10,
           display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -810,7 +898,6 @@ const ArchivePage = ({ setPage, isMobile }) => {
    ============================================ */
 const AboutPage = ({ isMobile }) => (
   <div>
-    {/* About hero banner — matches Archive style */}
     <div style={{
       background: T.heroBg, position: "relative", overflow: "hidden",
       padding: isMobile ? "36px 20px 32px" : "48px 48px 40px",
@@ -843,18 +930,24 @@ const AboutPage = ({ isMobile }) => (
       </div>
     </div>
 
-    <ContentWrap style={{ paddingBottom: 40 }}>
+    <ContentWrap style={{ paddingBottom: 40, position: "relative", zIndex: 1 }}>
 
     <div style={{ padding: "28px 0", borderBottom: `1px solid ${T.border}` }}>
       <div style={{ display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
+        {/* RANKMASTER PHOTO */}
         <div style={{
-          width: 110, height: 110, borderRadius: 12, background: T.heroBg, flexShrink: 0,
-          display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden",
+          width: 140, height: 180, borderRadius: 12, background: T.heroBg, flexShrink: 0,
+          overflow: "hidden",
         }}>
-          <span style={{ fontSize: 48, fontWeight: 900, fontFamily: T.font, color: "rgba(255,255,255,0.08)", letterSpacing: -3 }}>RM</span>
-          <div style={{ position: "absolute", bottom: 8, left: 0, right: 0, textAlign: "center" }}>
-            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#444", fontFamily: T.font }}>Photo TBD</span>
-          </div>
+          <img
+            src={rankmasterImage}
+            alt="The Rankmaster"
+            style={{
+              width: "100%", height: "100%",
+              objectFit: "cover",
+              objectPosition: "center 20%",
+            }}
+          />
         </div>
         <div style={{ flex: 1, minWidth: 240 }}>
           <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, lineHeight: 1.75 }}>
@@ -936,6 +1029,7 @@ export default function App() {
       background: T.white,
       fontFamily: T.font,
     }}>
+      <PageBackgroundTextures isMobile={isMobile} />
       <Nav page={page} setPage={setPage} isMobile={isMobile} />
       {page.type === "home" && <HomePage setPage={setPage} isMobile={isMobile} />}
       {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} isMobile={isMobile} />}
