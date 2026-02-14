@@ -14,7 +14,7 @@
 // ============================================
 
 // ⚠️ PASTE YOUR GOOGLE SHEET ID BELOW
-const SHEET_ID = "17mGjhNfXLqNz9hbDfwMVA8Fu44BENzjmSCqbwan_D70";
+const SHEET_ID = "YOUR_SHEET_ID_HERE";
 
 const TABS = {
   rankings: "Rankings",
@@ -113,10 +113,19 @@ function transformRankings(rows) {
   let currentDate = "";
 
   for (let i = 0; i < rows.length; i++) {
-    const first = (rows[i][0] || "").toLowerCase();
+    const first = (rows[i][0] || "").trim().toLowerCase();
     if (first.includes("week label")) weekLabel = (rows[i][1] || "").trim();
-    if (first.includes("date")) currentDate = (rows[i][1] || "").trim();
-    if (first === "rank") { dataStart = i + 1; break; }
+    if (first === "date" || first === "date:") currentDate = (rows[i][1] || "").trim();
+    // Look for the header row — column A contains "rank" (with or without extra text)
+    if (first === "rank" || first === "rank:" || first === "#") { dataStart = i + 1; break; }
+  }
+
+  // If we didn't find a header row, try to find the first row where column A is a number 1-10
+  if (dataStart === 0) {
+    for (let i = 0; i < rows.length; i++) {
+      const n = parseInt((rows[i][0] || "").trim(), 10);
+      if (n >= 1 && n <= 10) { dataStart = i; break; }
+    }
   }
 
   const rankings = [];
@@ -126,7 +135,11 @@ function transformRankings(rows) {
     const name = cleanName(row[1]);
     if (!name) continue;
 
-    const rank = cleanRank(row[0], i - dataStart + 1);
+    // Skip rows where rank isn't a valid number 1-10
+    const rankRaw = parseInt((row[0] || "").trim(), 10);
+    if (isNaN(rankRaw) || rankRaw < 1 || rankRaw > 10) continue;
+
+    const rank = rankRaw;
     const dir = cleanMovement(row[4]);
     const spots = cleanSpots(row[5]);
 
