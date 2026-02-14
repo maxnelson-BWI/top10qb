@@ -388,7 +388,7 @@ const HeroTextures = ({ isMobile }) => (
 /* ============================================
    PAGE: Homepage
    ============================================ */
-const HomePage = ({ setPage, isMobile }) => (
+const HomePage = ({ setPage, isMobile, CURRENT_WEEK_LABEL, RANKINGS, DROPPED, WORST }) => (
   <div>
     {/* Hero — full-width on all screen sizes */}
     {isMobile ? (
@@ -598,7 +598,7 @@ const HomePage = ({ setPage, isMobile }) => (
 /* ============================================
    PAGE: Player
    ============================================ */
-const PlayerPage = ({ slug, setPage, isMobile }) => {
+const PlayerPage = ({ slug, setPage, isMobile, RANKINGS, DROPPED, PLAYER_HISTORY }) => {
   const [timeRange, setTimeRange] = useState("season");
   const qb = RANKINGS.find(q => q.slug === slug) || DROPPED.map(d => ({ ...d, rank: "—", team: "—", commentary: "", movement: { dir: "same", spots: 0 } })).find(d => d.slug === slug);
 
@@ -704,7 +704,7 @@ const PlayerPage = ({ slug, setPage, isMobile }) => {
 /* ============================================
    PAGE: Archive
    ============================================ */
-const ArchivePage = ({ setPage, isMobile }) => {
+const ArchivePage = ({ setPage, isMobile, RANKINGS, DROPPED, WORST, ARCHIVE_WEEKS }) => {
   const [search, setSearch] = useState("");
   const [season, setSeason] = useState("2026");
   const ALL_SEARCHABLE = [
@@ -1056,9 +1056,9 @@ export default function App() {
     }}>
       <PageBackgroundTextures isMobile={isMobile} />
       <Nav page={page} setPage={setPage} isMobile={isMobile} />
-      {page.type === "home" && <HomePage setPage={setPage} isMobile={isMobile} />}
-      {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} isMobile={isMobile} />}
-      {page.type === "archive" && <ArchivePage setPage={setPage} isMobile={isMobile} />}
+      {page.type === "home" && <HomePage setPage={setPage} isMobile={isMobile} CURRENT_WEEK_LABEL={CURRENT_WEEK_LABEL} RANKINGS={RANKINGS} DROPPED={DROPPED} WORST={WORST} />}
+      {page.type === "player" && <PlayerPage slug={page.slug} setPage={setPage} isMobile={isMobile} RANKINGS={RANKINGS} DROPPED={DROPPED} PLAYER_HISTORY={PLAYER_HISTORY} />}
+      {page.type === "archive" && <ArchivePage setPage={setPage} isMobile={isMobile} RANKINGS={RANKINGS} DROPPED={DROPPED} WORST={WORST} ARCHIVE_WEEKS={ARCHIVE_WEEKS} />}
       {page.type === "about" && <AboutPage isMobile={isMobile} />}
     </div>
   );
