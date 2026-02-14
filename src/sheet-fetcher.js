@@ -14,7 +14,7 @@
 // ============================================
 
 // ⚠️ PASTE YOUR GOOGLE SHEET ID BELOW
-const SHEET_ID = "1SRL2IfpxCim5fjue2FlwjPvCFPluWmt9";
+const SHEET_ID = "17mGjhNfXLqNz9hbDfwMVA8Fu44BENzjmSCqbwan_D70";
 
 const TABS = {
   rankings: "Rankings",
