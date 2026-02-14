@@ -1021,6 +1021,7 @@ export default function App() {
   const { data, loading } = useSheetData();
   useEffect(() => { window.scrollTo(0, 0); }, [page]);
 
+  // Loading screen while data fetches
   if (loading || !data) return (
     <div style={{
       minHeight: "100vh", display: "flex", flexDirection: "column",
@@ -1038,10 +1039,14 @@ export default function App() {
     </div>
   );
 
-  const {
-    CURRENT_WEEK_LABEL, CURRENT_DATE, RANKINGS, DROPPED, WORST,
-    PLAYER_HISTORY, ARCHIVE_WEEKS,
-  } = data;
+  // Pull all data out so the rest of the code can use it
+  const CURRENT_WEEK_LABEL = data.CURRENT_WEEK_LABEL;
+  const CURRENT_DATE = data.CURRENT_DATE;
+  const RANKINGS = data.RANKINGS;
+  const DROPPED = data.DROPPED;
+  const WORST = data.WORST;
+  const PLAYER_HISTORY = data.PLAYER_HISTORY;
+  const ARCHIVE_WEEKS = data.ARCHIVE_WEEKS;
 
   return (
     <div style={{
