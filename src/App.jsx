@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import {
-  CURRENT_WEEK_LABEL, CURRENT_DATE, RANKINGS, DROPPED, WORST,
-  PLAYER_HISTORY, ARCHIVE_WEEKS,
-} from "./rankings-data.js";
+import { useSheetData } from "./useSheetData";
 import "./index.css";
 import heroImage from "./assets/hero.png";
 import rankmasterImage from "./assets/rankmaster.png";
@@ -1021,7 +1018,30 @@ const AboutPage = ({ isMobile }) => (
 export default function App() {
   const [page, setPage] = useState({ type: "home" });
   const isMobile = useIsMobile();
+  const { data, loading } = useSheetData();
   useEffect(() => { window.scrollTo(0, 0); }, [page]);
+
+  if (loading || !data) return (
+    <div style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center", fontFamily: T.font,
+      background: T.white,
+    }}>
+      <div style={{ fontSize: 28, fontWeight: 900, letterSpacing: -1.5, color: T.dark }}>
+        TOP10<span style={{ color: T.accent }}>QB</span>
+      </div>
+      <div style={{
+        marginTop: 16, width: 40, height: 3, background: T.accent, borderRadius: 2,
+        animation: "pulse 1.5s ease-in-out infinite",
+      }} />
+      <style>{`@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }`}</style>
+    </div>
+  );
+
+  const {
+    CURRENT_WEEK_LABEL, CURRENT_DATE, RANKINGS, DROPPED, WORST,
+    PLAYER_HISTORY, ARCHIVE_WEEKS,
+  } = data;
 
   return (
     <div style={{
