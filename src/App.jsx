@@ -200,16 +200,72 @@ const Nav = ({ page, setPage, isMobile }) => (
   </div>
 );
 
+const SocialButton = ({ href, label, icon }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 8,
+        padding: "10px 22px", borderRadius: 8,
+        border: `1.5px solid ${hovered ? T.accent : "rgba(255,255,255,0.15)"}`,
+        background: hovered ? "rgba(232,93,58,0.1)" : "transparent",
+        color: hovered ? T.accent : "#999",
+        fontSize: 13, fontWeight: 700, fontFamily: T.font,
+        textDecoration: "none", letterSpacing: 0.3,
+        transition: "all 0.2s ease",
+        cursor: "pointer",
+      }}>
+      <span style={{ fontSize: 15 }}>{icon}</span>
+      {label}
+    </a>
+  );
+};
+
 const Footer = () => (
-  <div style={{
-    marginTop: 48, paddingTop: 20, borderTop: `1px solid ${T.border}`,
-    display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "20px 48px 32px",
-  }}>
-    <span style={{ fontSize: 11, color: "#DDD", fontFamily: T.font }}>© 2026 Top10QB</span>
-    <div style={{ display: "flex", gap: 14 }}>
-      <a href={SOCIAL.twitter} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font, textDecoration: "none" }}>𝕏</a>
-      <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font, textDecoration: "none" }}>IG</a>
+  <div style={{ marginTop: 48 }}>
+    {/* Social CTA Strip */}
+    <div style={{
+      background: T.heroBg, borderRadius: 12, padding: "28px 32px",
+      display: "flex", justifyContent: "space-between", alignItems: "center",
+      flexWrap: "wrap", gap: 16,
+    }}>
+      <div>
+        <div style={{
+          fontSize: 14, fontWeight: 800, fontFamily: T.font, color: T.white,
+          letterSpacing: -0.3,
+        }}>
+          Agree? Disagree? Come argue.
+        </div>
+        <div style={{
+          fontSize: 11, color: "#555", fontFamily: T.font, marginTop: 4,
+          letterSpacing: 0.5,
+        }}>
+          New rankings every Tuesday
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 10 }}>
+        <SocialButton
+          href="https://twitter.com/top10qb"
+          label="Follow on 𝕏"
+          icon="𝕏"
+        />
+        <SocialButton
+          href="https://instagram.com/top10qb"
+          label="Follow on IG"
+          icon="📷"
+        />
+      </div>
+    </div>
+
+    {/* Copyright line */}
+    <div style={{
+      display: "flex", justifyContent: "space-between", alignItems: "center",
+      padding: "16px 4px 32px",
+    }}>
+      <span style={{ fontSize: 11, color: "#DDD", fontFamily: T.font }}>© 2026 Top10QB</span>
+      <span style={{ fontSize: 11, color: "#DDD", fontFamily: T.font }}>My list. My biases. Your problem.</span>
     </div>
   </div>
 );
