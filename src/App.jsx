@@ -21,6 +21,11 @@ const T = {
   font: "'DM Sans', sans-serif",
 };
 
+const SOCIAL = {
+  twitter: "https://twitter.com/top10qb",
+  instagram: "https://instagram.com/top10qb",
+};
+
 /* ============================================
    TEAM COLORS (for ranking row accent bars)
    ============================================ */
@@ -203,8 +208,8 @@ const Footer = () => (
   }}>
     <span style={{ fontSize: 11, color: "#DDD", fontFamily: T.font }}>© 2026 Top10QB</span>
     <div style={{ display: "flex", gap: 14 }}>
-      <span style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font }}>𝕏</span>
-      <span style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font }}>IG</span>
+      <a href={SOCIAL.twitter} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font, textDecoration: "none" }}>𝕏</a>
+      <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#CCC", cursor: "pointer", fontFamily: T.font, textDecoration: "none" }}>IG</a>
     </div>
   </div>
 );
@@ -766,7 +771,7 @@ const ArchivePage = ({ setPage, isMobile, RANKINGS, DROPPED, WORST, ARCHIVE_WEEK
             letterSpacing: -1.5, color: T.white,
           }}>Archive</div>
           <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, marginTop: 6 }}>
-            Every list. Every bad opinion. Preserved forever.
+            Every list. Preserved forever. No regrets.
           </div>
         </div>
       </div>
@@ -922,7 +927,7 @@ const AboutPage = ({ isMobile }) => (
           letterSpacing: -1.5, color: T.white,
         }}>The Rankmaster</div>
         <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, marginTop: 6, maxWidth: 480 }}>
-          Every organization needs a Rankmaster. Somebody brave enough to put 10 names in order and defend them against the internet. That somebody is me.
+          It's not glamorous work, producing Top 10 lists. But somebody has to do it.
         </div>
       </div>
     </div>
@@ -948,13 +953,10 @@ const AboutPage = ({ isMobile }) => (
         </div>
         <div style={{ flex: 1, minWidth: 240 }}>
           <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, lineHeight: 1.75 }}>
-            I've never played football. I've never worked in football. I have no insider sources and no advanced metrics beyond what I can Google.
+            I've never played football. I've never worked in football. I have no insider sources.
           </div>
           <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, lineHeight: 1.75, marginTop: 14 }}>
-            What I do have: opinions, a television, and a willingness to defend Lamar Jackson against anyone, anywhere, at any time.
-          </div>
-          <div style={{ fontSize: 13, color: "#666", fontFamily: T.font, lineHeight: 1.75, marginTop: 14 }}>
-            I'm a Ravens fan. I'm a 49ers fan. (Yes, both. Don't ask.) These biases are baked in. I'm not going to pretend otherwise.
+            What I do have: opinions, a television, and an impeccable "eye test."
           </div>
         </div>
       </div>
@@ -1002,9 +1004,9 @@ const AboutPage = ({ isMobile }) => (
         You probably shouldn't. But if you're the type of person who argues about quarterbacks in group chats, you might enjoy having someone to agree or disagree with. That's all this is.
       </div>
       <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 18 }}>
-        <span style={{ fontSize: 12, color: T.accent, fontFamily: T.font, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5 }}>Follow on 𝕏</span>
+        <a href={SOCIAL.twitter} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: T.accent, fontFamily: T.font, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, textDecoration: "none" }}>Follow on 𝕏</a>
         <span style={{ color: "#333" }}>·</span>
-        <span style={{ fontSize: 12, color: T.accent, fontFamily: T.font, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5 }}>Follow on IG</span>
+        <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: T.accent, fontFamily: T.font, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, textDecoration: "none" }}>Follow on IG</a>
       </div>
     </div>
     <Footer />
