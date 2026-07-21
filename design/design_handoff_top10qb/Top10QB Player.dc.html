@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#050506;font-family:'Barlow',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#fff;}
+  a{color:inherit;text-decoration:none;}
+  a:hover{color:inherit;}
+  .app{max-width:480px;margin:0 auto;background:#0b0a0c;min-height:100vh;overflow:hidden;position:relative;}
+  .stripe{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 9px);}
+  .lnk:hover{color:#e8462f !important;}
+  .seg{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .18s ease,color .18s ease;}
+  @media(min-width:481px){.app{margin:24px auto;border-radius:26px;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);min-height:calc(100vh - 48px);}}
+</style>
+</helmet>
+
+<div class="app">
+  <div style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(11,10,12,.86);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);">
+    <div style="font:900 22px 'Big Shoulders Display';letter-spacing:.01em;color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="display:flex;align-items:center;gap:15px;font:600 11px 'Barlow';letter-spacing:.06em;text-transform:uppercase;color:#8a8578;">
+      <a class="lnk" href="Top10QB%20Home.dc.html">List</a>
+      <a class="lnk" href="Top10QB%20Archive.dc.html">Archive</a>
+      <a class="lnk" href="Top10QB%20Was%20Wrong.dc.html">Wrong</a>
+      <a class="lnk" href="Top10QB%20About.dc.html">About</a>
+    </div>
+  </div>
+
+  <!-- back -->
+  <a class="lnk" href="Top10QB%20Home.dc.html" style="display:inline-flex;align-items:center;gap:8px;padding:16px 20px 6px;font:600 12px 'Barlow';letter-spacing:.06em;text-transform:uppercase;color:#8a8578;">← Back to the list</a>
+
+  <!-- header -->
+  <div style="padding:6px 20px 22px;background:radial-gradient(130% 70% at 12% 0%,#2a1a5c 0%,#0b0a0c 60%);">
+    <div style="font:700 11px 'Barlow';letter-spacing:.24em;color:#e8462f;text-transform:uppercase;">Player Profile</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:14px;">
+      <div class="stripe" style="width:88px;height:88px;flex-shrink:0;border-radius:14px;background:#241773;position:relative;overflow:hidden;box-shadow:0 16px 32px -14px #241773;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 8px 'Barlow';color:rgba(255,255,255,.5);text-align:center;">QB PNG</div>
+        <div style="position:absolute;left:0;bottom:0;width:100%;height:4px;background:#c9a227;"></div>
+      </div>
+      <div>
+        <div style="font:800 44px 'Big Shoulders Display';line-height:.86;text-transform:uppercase;color:#fff;">Lamar<br>Jackson</div>
+        <div style="display:inline-flex;align-items:center;gap:7px;margin-top:8px;background:rgba(255,255,255,.06);padding:5px 11px;border-radius:100px;"><span style="width:8px;height:8px;border-radius:50%;background:#241773;box-shadow:0 0 0 2px #c9a227;"></span><span style="font:600 10px 'Barlow';letter-spacing:.08em;color:#c9a227;text-transform:uppercase;">Baltimore Ravens · QB</span></div>
+      </div>
+    </div>
+
+    <!-- stat cards -->
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <div style="flex:1;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px 8px;">
+        <div style="font:800 40px 'Big Shoulders Display';color:#fff;line-height:.85;">#1</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.12em;color:#8a8578;text-transform:uppercase;margin-top:5px;">Current</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.28);border-radius:14px;padding:16px 8px;">
+        <div style="font:800 40px 'Big Shoulders Display';color:#3fb950;line-height:.85;">#1</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.12em;color:#7cbf86;text-transform:uppercase;margin-top:5px;">Highest</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(232,70,47,.1);border:1px solid rgba(232,70,47,.28);border-radius:14px;padding:16px 8px;">
+        <div style="font:800 40px 'Big Shoulders Display';color:#e8462f;line-height:.85;">#4</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.12em;color:#c9a89f;text-transform:uppercase;margin-top:5px;">Lowest</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- trend -->
+  <div style="padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="font:700 12px 'Barlow';letter-spacing:.2em;color:#6b6862;text-transform:uppercase;">Ranking Trend</div>
+      <div style="display:flex;gap:0;background:#100f12;border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:3px;">
+        <span class="seg" data-range="3" style="font:700 10px 'Barlow';letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;border-radius:7px;color:#8a8578;">Last 3</span>
+        <span class="seg" data-range="14" style="font:700 10px 'Barlow';letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;border-radius:7px;background:#e8462f;color:#fff;">Season</span>
+        <span class="seg" data-range="99" style="font:700 10px 'Barlow';letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;border-radius:7px;color:#8a8578;">All Time</span>
+      </div>
+    </div>
+    <div id="chart" style="margin-top:16px;background:#100f12;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:18px 14px 10px;"></div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:12px;font:600 10px 'Barlow';letter-spacing:.06em;text-transform:uppercase;color:#6b6862;">
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#c9a227;"></span>Weeks at No.1</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:3px;border-radius:2px;background:#e8462f;"></span>Weekly rank</span>
+    </div>
+  </div>
+
+  <!-- week by week -->
+  <div style="padding:0 20px 8px;">
+    <div style="font:700 12px 'Barlow';letter-spacing:.2em;color:#6b6862;text-transform:uppercase;margin-bottom:6px;">Week by Week</div>
+    <div id="wbw"></div>
+  </div>
+
+  <!-- cta -->
+  <div style="margin:16px 20px 0;padding:20px 22px;border-radius:18px;background:#100f12;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+    <div>
+      <div style="font:800 22px 'Big Shoulders Display';text-transform:uppercase;color:#fff;">Agree? Disagree?</div>
+      <div style="font:500 12px 'Barlow';color:#8a8578;">New rankings every Tuesday.</div>
+    </div>
+    <a href="https://x.com/top10qb" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#e8462f;color:#fff;border-radius:11px;padding:12px 16px;font:700 13px 'Barlow';white-space:nowrap;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Come argue
+    </a>
+  </div>
+
+  <div style="margin-top:30px;padding:26px 20px 40px;border-top:1px solid rgba(255,255,255,.07);text-align:center;">
+    <div style="font:900 20px 'Big Shoulders Display';color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="font:italic 400 15px 'DM Serif Display';color:#8a8578;margin-top:4px;">My list. My biases. Your problem.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // rank per NFL week, wk1..wk14 (1 = best)
+  history = [3,2,2,4,2,2,2,2,1,2,1,2,1,1];
+
+  componentDidMount() {
+    this.range = 14;
+    this.drawChart();
+    this.drawWbw();
+    document.querySelectorAll(".seg").forEach(s => {
+      s.addEventListener("click", () => {
+        document.querySelectorAll(".seg").forEach(x => { x.style.background = "transparent"; x.style.color = "#8a8578"; });
+        s.style.background = "#e8462f"; s.style.color = "#fff";
+        this.range = parseInt(s.dataset.range, 10);
+        this.drawChart();
+      });
+    });
+  }
+
+  drawChart() {
+    const el = document.getElementById("chart");
+    if (!el) return;
+    const data = this.range >= 99 ? this.history : this.history.slice(Math.max(0, this.history.length - this.range));
+    const startWk = this.history.length - data.length + 1;
+    const W = 440, H = 150, padL = 30, padR = 12, padT = 14, padB = 24;
+    const n = data.length;
+    const x = i => padL + (n === 1 ? 0 : i * (W - padL - padR) / (n - 1));
+    const y = r => padT + (r - 1) * (H - padT - padB) / 9; // rank 1..10 top..bottom
+    let line = "", area = "";
+    data.forEach((r, i) => { line += (i ? "L" : "M") + x(i).toFixed(1) + " " + y(r).toFixed(1) + " "; });
+    area = line + `L${x(n - 1).toFixed(1)} ${H - padB} L${x(0).toFixed(1)} ${H - padB} Z`;
+    let grid = "";
+    [1,4,7,10].forEach(r => {
+      grid += `<line x1="${padL}" y1="${y(r)}" x2="${W - padR}" y2="${y(r)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>`;
+      grid += `<text x="${padL - 8}" y="${y(r) + 4}" text-anchor="end" fill="#4a4842" font-family="Barlow" font-size="10" font-weight="600">#${r}</text>`;
+    });
+    let dots = "", labels = "";
+    data.forEach((r, i) => {
+      const gold = r === 1;
+      dots += `<circle cx="${x(i).toFixed(1)}" cy="${y(r).toFixed(1)}" r="${gold ? 5 : 3.5}" fill="${gold ? "#c9a227" : "#e8462f"}" stroke="#100f12" stroke-width="2"/>`;
+      if (n <= 8 || i % 2 === 0 || i === n - 1) labels += `<text x="${x(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="#6b6862" font-family="Barlow" font-size="9" font-weight="600">W${startWk + i}</text>`;
+    });
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" style="display:block;">
+      <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8462f" stop-opacity=".28"/><stop offset="1" stop-color="#e8462f" stop-opacity="0"/></linearGradient></defs>
+      ${grid}
+      <path d="${area}" fill="url(#ag)"/>
+      <path d="${line}" fill="none" stroke="#e8462f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots}${labels}
+    </svg>`;
+  }
+
+  drawWbw() {
+    const el = document.getElementById("wbw");
+    if (!el) return;
+    const notes = {14:"Bought the courthouse.",13:"Still him.",11:"Reclaimed the throne.",9:"MVP pace, no debate.",4:"Off week — dropped to 4."};
+    el.innerHTML = "";
+    for (let i = this.history.length - 1; i >= 0; i--) {
+      const wk = i + 1, r = this.history[i], prev = i > 0 ? this.history[i - 1] : null;
+      let move = "—", mc = "#8a8578";
+      if (prev !== null) { if (r < prev) { move = "▲ " + (prev - r); mc = "#3fb950"; } else if (r > prev) { move = "▼ " + (r - prev); mc = "#e8462f"; } }
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid rgba(255,255,255,.06);";
+      row.innerHTML = `
+        <div style="font:600 10px 'Barlow';letter-spacing:.08em;color:#6b6862;text-transform:uppercase;width:52px;flex-shrink:0;">Week ${wk}</div>
+        <div style="font:800 26px 'Big Shoulders Display';color:${r === 1 ? "#c9a227" : "#fff"};width:44px;">#${r}</div>
+        <div style="flex:1;font:italic 400 14px 'DM Serif Display';color:#8a8578;">${notes[wk] ? '"' + notes[wk] + '"' : ""}</div>
+        <div style="font:700 12px 'Barlow';color:${mc};white-space:nowrap;">${move}</div>`;
+      el.appendChild(row);
+    }
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

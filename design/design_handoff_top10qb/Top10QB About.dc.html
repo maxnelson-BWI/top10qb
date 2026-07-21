@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#050506;font-family:'Barlow',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#fff;}
+  a{color:inherit;text-decoration:none;}
+  a:hover{color:inherit;}
+  .app{max-width:480px;margin:0 auto;background:#0b0a0c;min-height:100vh;overflow:hidden;position:relative;}
+  .stripe{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 9px);}
+  .lnk:hover{color:#e8462f !important;}
+  .btnx:hover{background:#111 !important;color:#fff !important;}
+  @media(min-width:481px){.app{margin:24px auto;border-radius:26px;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);min-height:calc(100vh - 48px);}}
+</style>
+</helmet>
+
+<div class="app">
+  <div style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(11,10,12,.86);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);">
+    <div style="font:900 22px 'Big Shoulders Display';letter-spacing:.01em;color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="display:flex;align-items:center;gap:15px;font:600 11px 'Barlow';letter-spacing:.06em;text-transform:uppercase;color:#8a8578;">
+      <a class="lnk" href="Top10QB%20Home.dc.html">List</a>
+      <a class="lnk" href="Top10QB%20Archive.dc.html">Archive</a>
+      <a class="lnk" href="Top10QB%20Was%20Wrong.dc.html">Wrong</a>
+      <a class="lnk" href="Top10QB%20About.dc.html" style="color:#fff;">About</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="position:relative;padding:30px 20px 28px;background:radial-gradient(130% 70% at 85% 0%,#2a1a5c 0%,#0b0a0c 62%);overflow:hidden;">
+    <div style="position:absolute;top:-16px;right:-8px;font:900 190px 'Big Shoulders Display';line-height:.7;color:rgba(255,255,255,.04);pointer-events:none;">RM</div>
+    <div style="position:relative;">
+      <div style="font:700 11px 'Barlow';letter-spacing:.24em;color:#e8462f;text-transform:uppercase;">The Man Behind the List</div>
+      <div style="font:800 60px 'Big Shoulders Display';line-height:.84;text-transform:uppercase;color:#fff;margin-top:8px;">The<br>Rankmaster</div>
+      <div style="font:italic 400 20px/1.36 'DM Serif Display';color:#e6ddd0;margin-top:14px;max-width:340px;">"It's not glamorous work, producing the World Renowned List. But somebody has to do it."</div>
+    </div>
+  </div>
+
+  <!-- BIO -->
+  <div style="padding:24px 20px 6px;">
+    <div class="stripe" style="width:130px;height:150px;border-radius:14px;background:#161318;position:relative;overflow:hidden;float:left;margin:0 16px 8px 0;border:1px solid rgba(255,255,255,.08);">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 9px 'Barlow';color:rgba(255,255,255,.4);text-align:center;padding:8px;">HOODED FIGURE PHOTO</div>
+    </div>
+    <p style="font:400 16px/1.55 'Barlow';color:#c9c4bb;">I've never played football. Never worked in football. I have no insider sources, no film-room access, and no one on speed dial.</p>
+    <p style="font:400 16px/1.55 'Barlow';color:#c9c4bb;margin-top:12px;">What I do have: opinions, a television, and an eye test that has never once let me down — except for the seven times it did, which are documented in full over on <a class="lnk" href="Top10QB%20Was%20Wrong.dc.html" style="color:#e8462f;font-weight:600;">I Was Wrong</a>.</p>
+    <div style="clear:both;"></div>
+  </div>
+
+  <!-- CREDENTIALS -->
+  <div style="padding:20px 20px 0;">
+    <div style="font:700 11px 'Barlow';letter-spacing:.2em;color:#6b6862;text-transform:uppercase;">Credentials</div>
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <div style="flex:1;text-align:center;background:#100f12;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 6px;">
+        <div style="font:800 34px 'Big Shoulders Display';color:#fff;line-height:.9;">0</div>
+        <div style="font:600 8px 'Barlow';letter-spacing:.1em;color:#8a8578;text-transform:uppercase;margin-top:5px;">Years Played</div>
+      </div>
+      <div style="flex:1;text-align:center;background:#100f12;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 6px;">
+        <div style="font:800 20px 'Big Shoulders Display';color:#c9a227;line-height:1;padding:7px 0;">A LOT</div>
+        <div style="font:600 8px 'Barlow';letter-spacing:.1em;color:#8a8578;text-transform:uppercase;margin-top:5px;">Games Watched</div>
+      </div>
+      <div style="flex:1;text-align:center;background:#100f12;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 6px;">
+        <div style="font:800 20px 'Big Shoulders Display';color:#3fb950;line-height:1;padding:7px 0;">89%</div>
+        <div style="font:600 8px 'Barlow';letter-spacing:.1em;color:#8a8578;text-transform:uppercase;margin-top:5px;">Hit Rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE RULES -->
+  <div style="padding:26px 20px 0;">
+    <div style="font:700 11px 'Barlow';letter-spacing:.2em;color:#6b6862;text-transform:uppercase;">The House Rules</div>
+    <div id="rules" style="margin-top:8px;"></div>
+  </div>
+
+  <!-- BIAS DISCLOSURE -->
+  <div style="margin:26px 20px 0;padding:22px;border-radius:18px;background:rgba(232,70,47,.08);border:1px solid rgba(232,70,47,.3);">
+    <div style="font:700 11px 'Barlow';letter-spacing:.14em;color:#e8462f;text-transform:uppercase;">Full Bias Disclosure</div>
+    <div style="font:italic 400 19px/1.4 'DM Serif Display';color:#e6ddd0;margin-top:10px;">"I am openly, unapologetically higher on the Ravens and 49ers than a neutral party would be. This is not a bug. You knew what this was when you clicked."</div>
+  </div>
+
+  <!-- FOLLOW -->
+  <div style="margin:22px 20px 0;">
+    <a href="https://x.com/top10qb" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#0b0a0c;border-radius:14px;padding:16px;font:700 15px 'Barlow';" class="btnx">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Follow @top10qb
+    </a>
+  </div>
+
+  <div style="margin-top:30px;padding:26px 20px 40px;border-top:1px solid rgba(255,255,255,.07);text-align:center;">
+    <div style="font:900 20px 'Big Shoulders Display';color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="font:italic 400 15px 'DM Serif Display';color:#8a8578;margin-top:4px;">My list. My biases. Your problem.</div>
+    <div style="font:500 11px 'Barlow';color:#3a3630;margin-top:16px;">© The Rankmaster. Biased since Week 1. No refunds.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  rules = [
+    "The list drops every Tuesday in season. Periodically in the offseason, when the spirit moves me.",
+    "The eye test matters. Numbers support the argument; they don't win it.",
+    "Gunslingers over checkdown merchants. Every time.",
+    "I am not an advanced-analytics guy. I know what EPA is. I choose peace.",
+    "I'm allowed to change my mind on a QB. It just doesn't happen very often."
+  ];
+  componentDidMount() {
+    const el = document.getElementById("rules");
+    if (!el) return;
+    this.rules.forEach((r, i) => {
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07);";
+      row.innerHTML = `
+        <div style="font:800 26px 'Big Shoulders Display';color:#e8462f;width:34px;flex-shrink:0;line-height:1;">0${i + 1}</div>
+        <div style="font:400 15px/1.45 'Barlow';color:#c9c4bb;flex:1;">${r}</div>`;
+      el.appendChild(row);
+    });
+  }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

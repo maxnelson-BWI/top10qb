@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#050506;font-family:'Barlow',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#fff;}
+  a{color:inherit;text-decoration:none;}
+  a:hover{color:inherit;}
+  .app{max-width:480px;margin:0 auto;background:#0b0a0c;min-height:100vh;overflow:hidden;position:relative;}
+  .lnk:hover{color:#e8462f !important;}
+  .btnx:hover{background:#111 !important;color:#fff !important;}
+  @media(min-width:481px){.app{margin:24px auto;border-radius:26px;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);min-height:calc(100vh - 48px);}}
+</style>
+</helmet>
+
+<div class="app">
+  <div style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(11,10,12,.86);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);">
+    <div style="font:900 22px 'Big Shoulders Display';letter-spacing:.01em;color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="display:flex;align-items:center;gap:15px;font:600 11px 'Barlow';letter-spacing:.06em;text-transform:uppercase;color:#8a8578;">
+      <a class="lnk" href="Top10QB%20Home.dc.html">List</a>
+      <a class="lnk" href="Top10QB%20Archive.dc.html">Archive</a>
+      <a class="lnk" href="Top10QB%20Was%20Wrong.dc.html" style="color:#fff;">Wrong</a>
+      <a class="lnk" href="Top10QB%20About.dc.html">About</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div style="padding:30px 20px 26px;background:radial-gradient(130% 70% at 20% 0%,#3a0f0a 0%,#0b0a0c 62%);position:relative;">
+    <div style="font:700 11px 'Barlow';letter-spacing:.24em;color:#e8462f;text-transform:uppercase;">The Accountability Desk</div>
+    <div style="font:800 62px 'Big Shoulders Display';line-height:.82;text-transform:uppercase;color:#fff;margin-top:8px;">Rankmaster<br>Was Wrong</div>
+    <div style="font:italic 400 20px/1.36 'DM Serif Display';color:#e6ddd0;margin-top:16px;max-width:360px;">"A self-appointed authority with the humility to admit it — occasionally, and only when the tape is truly undeniable."</div>
+
+    <div style="display:flex;gap:10px;margin-top:22px;">
+      <div style="flex:1;text-align:center;background:rgba(232,70,47,.1);border:1px solid rgba(232,70,47,.3);border-radius:14px;padding:14px 8px;">
+        <div style="font:800 42px 'Big Shoulders Display';color:#e8462f;line-height:.9;">7</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.1em;color:#c9a89f;text-transform:uppercase;margin-top:4px;">Bad Calls</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px 8px;">
+        <div style="font:800 42px 'Big Shoulders Display';color:#fff;line-height:.9;">2</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.1em;color:#8a8578;text-transform:uppercase;margin-top:4px;">All-Timers</div>
+      </div>
+      <div style="flex:1;text-align:center;background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.3);border-radius:14px;padding:14px 8px;">
+        <div style="font:800 42px 'Big Shoulders Display';color:#c9a227;line-height:.9;">89%</div>
+        <div style="font:600 9px 'Barlow';letter-spacing:.1em;color:#c9b98a;text-transform:uppercase;margin-top:4px;">Still Right</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;padding:16px 20px 8px;">
+    <div style="font:700 12px 'Barlow';letter-spacing:.18em;color:#6b6862;text-transform:uppercase;">The Hall of Shame · 2024</div>
+  </div>
+
+  <!-- MISTAKES -->
+  <div id="wronglist" style="display:flex;flex-direction:column;gap:14px;padding:6px 20px 0;"></div>
+
+  <!-- SHARE CTA -->
+  <div style="margin:26px 20px 0;padding:24px 22px;border-radius:20px;background:linear-gradient(150deg,#e8462f 0%,#a8281a 90%);position:relative;overflow:hidden;">
+    <div style="font:800 30px 'Big Shoulders Display';line-height:.94;text-transform:uppercase;color:#fff;">Screenshot it.<br>Send it. Gloat.</div>
+    <div style="font:400 14px/1.4 'Barlow';color:#ffe4dd;margin-top:8px;max-width:300px;">Every bad take, immortalized. Because a ranking you can't hold accountable isn't a ranking — it's a horoscope.</div>
+    <a href="https://x.com/top10qb" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#0b0a0c;color:#fff;border-radius:12px;padding:14px 20px;font:700 14px 'Barlow';letter-spacing:.02em;" class="btnx">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Follow the reckoning
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top:30px;padding:26px 20px 40px;border-top:1px solid rgba(255,255,255,.07);text-align:center;">
+    <div style="font:900 20px 'Big Shoulders Display';color:#fff;">TOP<span style="color:#e8462f;">10</span>QB</div>
+    <div style="font:italic 400 15px 'DM Serif Display';color:#8a8578;margin-top:4px;">Wrong sometimes. Boring never.</div>
+    <div style="display:flex;justify-content:center;gap:18px;margin-top:16px;font:600 12px 'Barlow';letter-spacing:.08em;text-transform:uppercase;color:#6b6862;">
+      <a class="lnk" href="Top10QB%20Home.dc.html">The List</a>
+      <a class="lnk" href="Top10QB%20Archive.dc.html">Archive</a>
+      <a class="lnk" href="https://x.com/top10qb" target="_blank">@top10qb</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  calls = [
+    {wk:"Week 3", grade:"F", claim:"\"Sam Darnold is done. Cooked. Put a fork in the seeing-ghosts era — permanently.\"", reality:"Currently ranked #10 and climbing. The ghosts, it turns out, left town.", verdict:"He's on the list. I put him there. Growth."},
+    {wk:"Week 1", grade:"F", claim:"\"Jayden Daniels is a project. Year two, maybe, we talk top 10.\"", reality:"Was the No.1 QB on this very list by Week 4. As a rookie.", verdict:"In my defense — no. There is no defense."},
+    {wk:"Week 5", grade:"D", claim:"\"Baker Mayfield is streaming-QB filler. Won't sniff the top 15 again.\"", reality:"Ninth this week, ball on a rope, chip fully intact.", verdict:"I let old grudges cloud the tape. My bad, Baker."},
+    {wk:"Week 2", grade:"D", claim:"\"Bench Brock Purdy in the rankings. He's a system, not a star.\"", reality:"#4 and the biggest riser of the week. The system is him.", verdict:"Even my bias has bias. Corrected."},
+    {wk:"Week 7", grade:"C", claim:"\"The Bengals are toast, and Burrow's ranking sinks with the ship.\"", reality:"Held at #5 by carrying said ship up five flights of stairs.", verdict:"I ranked the roster. I should've ranked the man."}
+  ];
+
+  componentDidMount() {
+    const wrap = document.getElementById("wronglist");
+    if (!wrap) return;
+    this.calls.forEach(c => {
+      const el = document.createElement("div");
+      el.style.cssText = "background:#100f12;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;";
+      el.innerHTML = `
+        <div style="display:flex;align-items:stretch;">
+          <div style="width:64px;flex-shrink:0;background:rgba(232,70,47,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid rgba(232,70,47,.2);">
+            <div style="font:800 44px 'Big Shoulders Display';color:#e8462f;line-height:.8;">${c.grade}</div>
+            <div style="font:600 8px 'Barlow';letter-spacing:.08em;color:#a8685c;text-transform:uppercase;margin-top:3px;">${c.wk}</div>
+          </div>
+          <div style="flex:1;padding:16px 16px 18px;min-width:0;">
+            <div style="font:600 9px 'Barlow';letter-spacing:.14em;color:#e8462f;text-transform:uppercase;">The Take</div>
+            <div style="font:italic 400 18px/1.34 'DM Serif Display';color:#f4f1ea;margin-top:4px;">${c.claim}</div>
+            <div style="font:600 9px 'Barlow';letter-spacing:.14em;color:#3fb950;text-transform:uppercase;margin-top:14px;">What Actually Happened</div>
+            <div style="font:500 14px/1.4 'Barlow';color:#c9c4bb;margin-top:3px;">${c.reality}</div>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.12);font:500 13px/1.4 'Barlow';color:#8a8578;"><span style="color:#c9a227;font-weight:700;">Verdict:</span> ${c.verdict}</div>
+          </div>
+        </div>`;
+      wrap.appendChild(el);
+    });
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

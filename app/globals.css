@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050506;
+  color: #fff;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The single centered app column — full-bleed on phones, rounded card on wider screens */
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #0b0a0c;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 481px) {
+  .app-shell {
+    margin: 24px auto;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.9);
+    min-height: calc(100vh - 48px);
+  }
+
+  /* Branded ambient backdrop so the space around the phone column on wide
+     screens reads as intentional, not empty. */
+  body {
+    background:
+      radial-gradient(46% 55% at 18% 8%, rgba(42, 26, 92, 0.55), transparent 55%),
+      radial-gradient(42% 50% at 84% 92%, rgba(232, 70, 47, 0.16), transparent 55%),
+      #050506;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 26px),
+      radial-gradient(120% 100% at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+  }
+  /* Giant faded wordmark filling the void behind the column. */
+  body::after {
+    content: "TOP10QB";
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    z-index: -1;
+    pointer-events: none;
+    font-family: var(--font-big-shoulders), sans-serif;
+    font-weight: 900;
+    font-size: 30vh;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.022);
+    white-space: nowrap;
+  }
+}
+
+/* Jersey "stripe" texture used on portrait cards & the signup panel */
+.stripe {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0 2px,
+    transparent 2px 9px
+  );
+}
+
+/* Expand/collapse "take" drawer on rank rows. Height is measured in JS and
+   applied as an inline max-height so the transition animates reliably. */
+.take-drawer {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.28s ease, opacity 0.2s ease;
+}
+.take-drawer[data-open="true"] {
+  opacity: 1;
+}
+
+.chev {
+  transition: transform 0.28s ease;
+  display: inline-block;
+}
+
+.link-accent {
+  transition: color 0.18s ease;
+}
+.link-accent:hover {
+  color: #e8462f;
+}
+
+/* White Follow button inverts to near-black on hover (design spec). */
+.btn-follow {
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.btn-follow:hover {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+input::placeholder {
+  color: #6b6862;
+}
