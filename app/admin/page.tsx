@@ -61,6 +61,13 @@ export default async function AdminDashboard() {
         >
           ⬇ Export CSV
         </a>
+        <Link
+          href="/admin/graphics"
+          className="rounded-[10px] font-body font-bold text-[13px] uppercase inline-flex items-center"
+          style={{ background: "transparent", border: "1px solid rgba(255,255,255,.18)", color: "#c9c4bb", padding: "12px 16px", letterSpacing: ".04em" }}
+        >
+          ◫ Graphics
+        </Link>
       </div>
 
       <div className="px-5">

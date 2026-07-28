@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Big_Shoulders, Barlow, DM_Serif_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // Google merged "Big Shoulders Display" into the "Big Shoulders" family — same
@@ -29,21 +30,36 @@ const dmSerif = DM_Serif_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://top10qb.com"),
-  title: "Top10QB — The World Renowned List",
+  title: {
+    default: "Top10QB — The World Renowned List",
+    template: "%s — Top10QB",
+  },
   description:
-    "Your favorite rapper's favorite top 10 list. The weekly NFL quarterback rankings, straight from the Rankmaster's desk.",
+    "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Top10QB — The World Renowned List",
-    description: "The weekly NFL quarterback rankings, straight from the Rankmaster's desk.",
+    description: "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
     url: "https://top10qb.com",
     siteName: "Top10QB",
     type: "website",
+    images: [
+      {
+        url: "/graphics/list?format=landscape",
+        width: 1600,
+        height: 900,
+        alt: "The latest Top10QB ranking",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@top10qb",
     title: "Top10QB — The World Renowned List",
-    description: "The weekly NFL quarterback rankings, straight from the Rankmaster's desk.",
+    description: "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
+    images: ["/graphics/list?format=landscape"],
   },
 };
 
@@ -53,7 +69,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${bigShoulders.variable} ${barlow.variable} ${dmSerif.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

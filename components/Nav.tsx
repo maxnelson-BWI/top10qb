@@ -12,7 +12,8 @@ const links: Array<{ href: string; label: string; key: string }> = [
 export function Nav({ active }: { active?: string }) {
   const shown = links.filter((l) => l.key !== "about" || SHOW_ABOUT);
   return (
-    <div
+    <nav
+      aria-label="Primary"
       className="sticky top-0 z-50 flex items-center justify-between px-5 py-[14px]"
       style={{
         background: "rgba(11,10,12,.86)",
@@ -43,6 +44,6 @@ export function Nav({ active }: { active?: string }) {
           </Link>
         ))}
       </div>
-    </div>
+    </nav>
   );
 }

@@ -3,7 +3,7 @@ import { SHOW_ABOUT, X_URL } from "@/lib/site";
 
 export function Footer() {
   return (
-    <div
+    <footer
       className="mt-[34px] px-5 pt-[26px] pb-10 text-center"
       style={{ borderTop: "1px solid rgba(255,255,255,.07)" }}
     >
@@ -33,8 +33,8 @@ export function Footer() {
         </a>
       </div>
       <div className="font-body font-medium text-[11px] mt-[18px]" style={{ color: "#3a3630" }}>
-        © The Rankmaster. Biased since Week 1. No refunds.
+        One guy. Ten quarterbacks. New lists Tuesdays in season.
       </div>
-    </div>
+    </footer>
   );
 }

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { XIcon } from "@/components/FollowButton";
@@ -5,6 +6,11 @@ import { getWrongEntries } from "@/lib/data";
 import { X_URL } from "@/lib/site";
 
 export const revalidate = 3600;
+export const metadata: Metadata = {
+  title: "I Was Wrong",
+  description: "The Top10QB accountability page: old quarterback takes revisited in public.",
+  alternates: { canonical: "/wrong" },
+};
 
 export default async function WrongPage() {
   const entries = await getWrongEntries();
@@ -13,50 +19,35 @@ export default async function WrongPage() {
     <div className="app-shell">
       <Nav active="wrong" />
 
-      {/* Header */}
       <div style={{ padding: "30px 20px 26px", background: "radial-gradient(130% 70% at 20% 0%,#3a0f0a 0%,#0b0a0c 62%)" }}>
         <div
           className="font-body font-bold text-[11px] uppercase"
           style={{ letterSpacing: ".24em", color: "#e8462f" }}
         >
-          The Accountability Desk
+          Public Accountability
         </div>
-        <div
+        <h1
           className="font-display font-extrabold text-[62px] uppercase text-white mt-2"
           style={{ lineHeight: 0.82 }}
         >
-          Rankmaster
-          <br />
-          Was Wrong
-        </div>
+          I Was
+          <br />Wrong
+        </h1>
         <div className="font-serif italic text-[20px] mt-4" style={{ color: "#e6ddd0", lineHeight: 1.36, maxWidth: 360 }}>
-          &ldquo;A self-appointed authority with the humility to admit it — occasionally, and only when
-          the tape is truly undeniable.&rdquo;
+          &ldquo;If I make the list in public, I should take the losses in public too.&rdquo;
         </div>
 
         {entries.length > 0 && (
-          <div className="flex gap-[10px] mt-[22px]">
-            {[
-              { v: String(entries.length), l: "Bad Calls", vc: "#e8462f", lc: "#c9a89f", bg: "rgba(232,70,47,.1)", bd: "rgba(232,70,47,.3)" },
-              { v: "2", l: "All-Timers", vc: "#fff", lc: "#8a8578", bg: "rgba(255,255,255,.05)", bd: "rgba(255,255,255,.09)" },
-              { v: "89%", l: "Still Right", vc: "#c9a227", lc: "#c9b98a", bg: "rgba(201,162,39,.1)", bd: "rgba(201,162,39,.3)" },
-            ].map((s) => (
-              <div
-                key={s.l}
-                className="flex-1 text-center rounded-[14px]"
-                style={{ background: s.bg, border: `1px solid ${s.bd}`, padding: "14px 8px" }}
-              >
-                <div className="font-display font-extrabold text-[42px]" style={{ color: s.vc, lineHeight: 0.9 }}>
-                  {s.v}
-                </div>
-                <div
-                  className="font-body font-semibold text-[9px] uppercase mt-1"
-                  style={{ letterSpacing: ".1em", color: s.lc }}
-                >
-                  {s.l}
-                </div>
-              </div>
-            ))}
+          <div
+            className="inline-flex items-baseline gap-3 mt-[22px] rounded-[14px]"
+            style={{ background: "rgba(232,70,47,.1)", border: "1px solid rgba(232,70,47,.3)", padding: "12px 16px" }}
+          >
+            <div className="font-display font-extrabold text-[42px]" style={{ color: "#e8462f", lineHeight: 0.9 }}>
+              {entries.length}
+            </div>
+            <div className="font-body font-semibold text-[10px] uppercase" style={{ letterSpacing: ".12em", color: "#c9a89f" }}>
+              calls revisited
+            </div>
           </div>
         )}
       </div>
@@ -68,29 +59,25 @@ export default async function WrongPage() {
             style={{ padding: "36px 24px", background: "#100f12", border: "1px dashed rgba(255,255,255,.14)" }}
           >
             <div className="font-display font-extrabold text-[34px] uppercase text-white" style={{ lineHeight: 0.9 }}>
-              Nothing here.
-              <br />
-              Yet.
+              No entries yet.
             </div>
             <div className="font-serif italic text-[18px] mt-4" style={{ color: "#8a8578", lineHeight: 1.4 }}>
-              &ldquo;The Rankmaster has not yet been wrong. Check back after he inevitably blows one.&rdquo;
+              That is a data-entry problem, not proof I have never been wrong. The first real miss
+              goes here.
             </div>
           </div>
         </div>
       ) : (
       <>
-      {/* Header end */}
-
       <div className="flex items-center gap-2" style={{ padding: "16px 20px 8px" }}>
         <div
           className="font-body font-bold text-[12px] uppercase"
           style={{ letterSpacing: ".18em", color: "#6b6862" }}
         >
-          The Hall of Shame · 2024
+          The Receipts
         </div>
       </div>
 
-      {/* Entries */}
       <div className="flex flex-col gap-[14px]" style={{ padding: "6px 20px 0" }}>
         {entries.map((c) => (
           <div
@@ -144,19 +131,16 @@ export default async function WrongPage() {
         ))}
       </div>
 
-      {/* Share CTA */}
       <div
         className="mt-[26px] mx-5 rounded-[20px] relative overflow-hidden"
         style={{ padding: "24px 22px", background: "linear-gradient(150deg,#e8462f 0%,#a8281a 90%)" }}
       >
         <div className="font-display font-extrabold text-[30px] uppercase text-white" style={{ lineHeight: 0.94 }}>
-          Screenshot it.
-          <br />
-          Send it. Gloat.
+          Think I missed one?
+          <br />Send the receipt.
         </div>
         <div className="font-body text-[14px] mt-2" style={{ color: "#ffe4dd", lineHeight: 1.4, maxWidth: 300 }}>
-          Every bad take, immortalized. Because a ranking you can&apos;t hold accountable isn&apos;t a
-          ranking — it&apos;s a horoscope.
+          The point is not to never be wrong. The point is to make an actual call and come back to it.
         </div>
         <a
           href={X_URL}
@@ -166,19 +150,18 @@ export default async function WrongPage() {
           style={{ background: "#0b0a0c", padding: "14px 20px", letterSpacing: ".02em" }}
         >
           <XIcon size={16} />
-          Follow the reckoning
+          Make your case
         </a>
       </div>
       </>
       )}
 
-      {/* Footer */}
       <div className="mt-[30px] px-5 pt-[26px] pb-10 text-center" style={{ borderTop: "1px solid rgba(255,255,255,.07)" }}>
         <div className="font-display font-black text-[20px] text-white">
           TOP<span style={{ color: "#e8462f" }}>10</span>QB
         </div>
         <div className="font-serif italic text-[15px] mt-1" style={{ color: "#8a8578" }}>
-          Wrong sometimes. Boring never.
+          Wrong sometimes. Still ranking.
         </div>
         <div
           className="flex justify-center gap-[18px] mt-4 font-body font-semibold text-[12px] uppercase"

@@ -1,6 +1,6 @@
 # Top10QB — Setup Guide (plain English)
 
-This is the new Top10QB site: a **Next.js** app (public site + private admin) backed by a
+This is the Top10QB site: a **Next.js** app (public site + private admin) backed by a
 **Supabase** database, deployed on **Vercel** via **GitHub** — the same hosting flow you already
 use. QB headshots load live from ESPN (no images to manage). This guide walks you through the
 one-time setup. Nothing here requires you to write code.
@@ -121,6 +121,28 @@ Every future `git push` auto-deploys, same as today.
 The homepage form saves addresses into the `subscribers` table in Supabase. To see them:
 Supabase → **Table editor** → `subscribers`. When you're ready to send newsletters, export that
 table (or wire up a provider like Resend later) — you own the list.
+
+Until an email provider is connected, the form is intentionally worded as an early-access list.
+It does not promise that an email will arrive every Tuesday. Once sending is connected and tested,
+update the public copy to make the weekly promise.
+
+## Weekly graphics
+The private admin has a **Graphics** button. It creates three images directly from the current
+published list:
+
+- A wide image for X and social link previews
+- A portrait version for taller social posts
+- A No.1 quarterback card using that week's saved take
+
+Publish a new list and the graphics update automatically. There is no Canva step and no need to
+retype names or movement arrows. The visual texture lives in
+`public/graphics/assets/editorial-stadium-texture.png`.
+
+## Analytics
+Vercel Analytics is included. After the updated site is deployed, turn on **Web Analytics** in the
+Vercel project if it is not already enabled. It will measure page views and referral sources. The
+site also records two non-personal events: successful email signups and clicks on the main X follow
+button. No email address is sent to analytics.
 
 ## Headshots
 QB photos load automatically from ESPN using each QB's ESPN id (already stored in the `qbs`

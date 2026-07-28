@@ -6,6 +6,7 @@ import { RankRow } from "./RankRow";
 export function WeekBody({ week }: { week: Week }) {
   const no1 = week.ranked.find((r) => r.rank === 1);
   const rest = week.ranked.filter((r) => r.rank >= 2).sort((a, b) => a.rank - b.rank);
+  const isOffseason = week.label?.toLowerCase().includes("offseason") ?? false;
 
   return (
     <>
@@ -21,12 +22,12 @@ export function WeekBody({ week }: { week: Week }) {
       {rest.length > 0 && (
         <div>
           <div className="flex items-baseline justify-between px-5 pt-5 pb-2">
-            <div
+            <h2
               className="font-body font-bold text-[12px] uppercase"
               style={{ letterSpacing: ".2em", color: "#6b6862" }}
             >
               The Rest of the List
-            </div>
+            </h2>
             <div
               className="font-body font-medium text-[11px] uppercase"
               style={{ letterSpacing: ".06em", color: "#4a4842" }}
@@ -51,7 +52,7 @@ export function WeekBody({ week }: { week: Week }) {
             className="flex items-center gap-2 font-body font-bold text-[11px] uppercase"
             style={{ letterSpacing: ".14em", color: "#e8462f" }}
           >
-            <span>🗑</span> Worst QB of the Week
+            {isOffseason ? "QB I'm Worried About" : "Roughest QB Week"}
           </div>
           <div
             className="font-display font-extrabold text-[42px] uppercase text-white"
@@ -66,7 +67,7 @@ export function WeekBody({ week }: { week: Week }) {
             className="font-body font-bold text-[10px] uppercase"
             style={{ letterSpacing: ".16em", color: "#8a5c50", marginTop: 14 }}
           >
-            — The Rankmaster, with love
+            — One guy&apos;s opinion, with love
           </div>
         </div>
       )}

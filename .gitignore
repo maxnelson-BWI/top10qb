@@ -11,6 +11,9 @@ next-env.d.ts
 # production
 /build
 
+# locally rendered social graphic exports (regenerate from /admin/graphics)
+/output/graphics/
+
 # env — NEVER commit secrets
 .env
 .env.*

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
@@ -11,7 +12,21 @@ import { X_URL } from "@/lib/site";
 
 export const revalidate = 3600;
 
-export default async function PlayerPage({ params }: { params: Promise<{ slug: string }> }) {
+type PlayerPageProps = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: PlayerPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const player = await getPlayer(slug);
+  if (!player) return {};
+
+  return {
+    title: `${player.name} Ranking History`,
+    description: `${player.name}'s week-by-week position on the Top10QB list.`,
+    alternates: { canonical: `/player/${slug}` },
+  };
+}
+
+export default async function PlayerPage({ params }: PlayerPageProps) {
   const { slug } = await params;
   const player = await getPlayer(slug);
   if (!player) notFound();
@@ -49,14 +64,14 @@ export default async function PlayerPage({ params }: { params: Promise<{ slug: s
             <QBHeadshot espnId={player.espnId} name={player.name} height={128} bg={player.teamColor} />
           </div>
           <div>
-            <div
+            <h1
               className="font-display font-extrabold text-[44px] uppercase text-white"
               style={{ lineHeight: 0.86 }}
             >
               {first}
               <br />
               {rest.join(" ")}
-            </div>
+            </h1>
             <div
               className="inline-flex items-center gap-[7px] mt-2 rounded-full"
               style={{ background: "rgba(255,255,255,.06)", padding: "5px 11px" }}

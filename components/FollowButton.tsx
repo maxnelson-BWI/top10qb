@@ -1,3 +1,6 @@
+"use client";
+
+import { track } from "@vercel/analytics";
 import { X_URL, X_HANDLE } from "@/lib/site";
 
 export function XIcon({ size = 18 }: { size?: number }) {
@@ -16,6 +19,7 @@ export function FollowButton({ subline = true }: { subline?: boolean }) {
         href={X_URL}
         target="_blank"
         rel="noreferrer"
+        onClick={() => track("X Follow Click", { location: "follow_button" })}
         className="btn-follow flex items-center justify-center gap-[10px] rounded-[14px] p-[17px] font-body font-bold text-[15px]"
         style={{ background: "#fff", color: "#0b0a0c", letterSpacing: ".02em" }}
       >

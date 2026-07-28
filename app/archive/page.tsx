@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { getArchive, archiveStats } from "@/lib/data";
@@ -5,6 +6,11 @@ import { TEAM_BY_CODE } from "@/lib/reference";
 import { X_URL } from "@/lib/site";
 
 export const revalidate = 3600;
+export const metadata: Metadata = {
+  title: "The Archive",
+  description: "Every Top10QB list, kept in one place so the old opinions cannot escape.",
+  alternates: { canonical: "/archive" },
+};
 
 function nickname(teamCode: string): string {
   const full = TEAM_BY_CODE[teamCode]?.name ?? teamCode;
@@ -19,26 +25,26 @@ export default async function ArchivePage() {
     <div className="app-shell">
       <Nav active="archive" />
 
-      {/* Header */}
       <div style={{ padding: "26px 20px 24px", background: "radial-gradient(130% 70% at 80% 0%,#2a1a5c 0%,#0b0a0c 58%)" }}>
         <div className="font-serif italic text-[17px]" style={{ color: "#e8462f" }}>
           The World Renowned List
         </div>
-        <div
+        <h1
           className="font-display font-extrabold text-[46px] uppercase text-white mt-1"
           style={{ lineHeight: 0.88 }}
         >
           The Archive
-        </div>
+        </h1>
         <div className="font-body text-[15px] mt-[10px]" style={{ color: "#b8b2a8", lineHeight: 1.45, maxWidth: 340 }}>
-          Every list. Every week. Never missed one. Tap any week to pull up that week&apos;s full top 10.
+          Every list I have published, kept in one place. Tap a date to see the full top 10 and
+          check whether an old opinion held up.
         </div>
 
         <div className="flex gap-[10px] mt-5">
           {[
-            { v: String(stats.weeksRanked), l: "Weeks Ranked", c: "#c9a227" },
-            { v: String(stats.missed), l: "Weeks Missed", c: "#3fb950" },
-            { v: String(stats.distinctNo1), l: "Diff. No.1s", c: "#e8462f" },
+            { v: String(stats.weeksRanked), l: "Lists Kept", c: "#c9a227" },
+            { v: String(stats.seasons), l: "Seasons", c: "#fff" },
+            { v: String(stats.distinctNo1), l: "No.1 QBs", c: "#e8462f" },
           ].map((s) => (
             <div
               key={s.l}
@@ -59,7 +65,6 @@ export default async function ArchivePage() {
         </div>
       </div>
 
-      {/* Streak ribbon */}
       <div
         className="flex items-center gap-2 overflow-hidden"
         style={{
@@ -71,20 +76,23 @@ export default async function ArchivePage() {
       >
         <span
           className="font-body font-bold text-[10px] uppercase whitespace-nowrap"
-          style={{ letterSpacing: ".16em", color: "#3fb950" }}
+          style={{ letterSpacing: ".16em", color: "#c9a227" }}
         >
-          ● Unbroken streak
+          ● The complete record
         </span>
         <div className="flex gap-[3px] flex-1">
           {Array.from({ length: Math.max(stats.weeksRanked, 1) }).map((_, i) => (
-            <span key={i} style={{ flex: 1, height: 8, borderRadius: 2, background: "#3fb950" }} />
+            <span key={i} style={{ flex: 1, height: 8, borderRadius: 2, background: "#e8462f" }} />
           ))}
         </div>
       </div>
 
-      {/* Week list */}
       <div>
-        {entries.map((w) => (
+        {entries.length === 0 ? (
+          <div className="px-5 py-12 text-center font-serif italic text-[18px]" style={{ color: "#8a8578" }}>
+            The first published list will show up here.
+          </div>
+        ) : entries.map((w) => (
           <Link
             key={`${w.season}-${w.weekNumber}`}
             href={`/week/${w.season}/${w.weekNumber}`}
@@ -175,7 +183,6 @@ export default async function ArchivePage() {
         ))}
       </div>
 
-      {/* Footer */}
       <div
         className="mt-5 px-5 pt-[26px] pb-10 text-center"
         style={{ borderTop: "1px solid rgba(255,255,255,.07)" }}

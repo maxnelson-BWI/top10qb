@@ -192,10 +192,11 @@ export async function getArchive(): Promise<ArchiveEntry[]> {
   }
 }
 
-/** Archive header stats: weeks ranked, missed (always 0 — the streak), distinct #1s. */
+/** Honest archive header stats derived only from published lists. */
 export function archiveStats(entries: ArchiveEntry[]) {
   const distinctNo1 = new Set(entries.map((e) => e.no1Name)).size;
-  return { weeksRanked: entries.length, missed: 0, distinctNo1 };
+  const seasons = new Set(entries.map((e) => e.season)).size;
+  return { weeksRanked: entries.length, seasons, distinctNo1 };
 }
 
 export async function getWrongEntries(): Promise<WrongEntry[]> {

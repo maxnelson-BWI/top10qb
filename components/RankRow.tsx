@@ -12,6 +12,7 @@ export function RankRow({ qb }: { qb: RankedQB }) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [maxH, setMaxH] = useState(0);
   const mv = movementLabel(qb.movement);
+  const drawerId = `take-${qb.qbSlug}-${qb.rank}`;
 
   useEffect(() => {
     setMaxH(open ? (innerRef.current?.scrollHeight ?? 0) : 0);
@@ -19,11 +20,17 @@ export function RankRow({ qb }: { qb: RankedQB }) {
 
   return (
     <div
-      className="row cursor-pointer select-none active:bg-white/[.03]"
+      className="row select-none"
       style={{ borderTop: "1px solid rgba(255,255,255,.07)" }}
-      onClick={() => setOpen((o) => !o)}
     >
-      <div className="flex items-center gap-[14px] px-5 py-[15px]">
+      <button
+        type="button"
+        className="rank-row-button flex w-full items-center gap-[14px] px-5 py-[15px] text-left"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={drawerId}
+        aria-label={`${qb.name}, ranked ${qb.rank}. ${open ? "Hide" : "Show"} take`}
+      >
         <span
           className="self-stretch rounded-[3px]"
           style={{ width: 5, background: qb.teamColor }}
@@ -55,8 +62,15 @@ export function RankRow({ qb }: { qb: RankedQB }) {
         >
           ▾
         </span>
-      </div>
-      <div className="take-drawer" data-open={open} style={{ maxHeight: maxH }}>
+      </button>
+      <div
+        id={drawerId}
+        className="take-drawer"
+        data-open={open}
+        aria-hidden={!open}
+        inert={!open}
+        style={{ maxHeight: maxH }}
+      >
         <div ref={innerRef} style={{ padding: "0 20px 18px 55px" }}>
           <div
             className="font-serif italic text-[18px]"
@@ -66,7 +80,7 @@ export function RankRow({ qb }: { qb: RankedQB }) {
           </div>
           <Link
             href={`/player/${qb.qbSlug}`}
-            onClick={(e) => e.stopPropagation()}
+            tabIndex={open ? 0 : -1}
             className="inline-flex items-center gap-[6px] mt-3 font-body font-bold text-[10px] uppercase"
             style={{ marginLeft: 14, letterSpacing: ".1em", color: "#c9a227" }}
           >

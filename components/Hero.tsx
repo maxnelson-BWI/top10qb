@@ -51,14 +51,14 @@ export function Hero({
         accent={no1.teamColor}
       />
 
-      <div
+      <h1
         className="font-display font-extrabold text-[60px] uppercase text-white"
         style={{ lineHeight: 0.82, marginTop: 14 }}
       >
         {first}
         <br />
         {last}
-      </div>
+      </h1>
 
       <div className="flex flex-wrap gap-2" style={{ marginTop: 14 }}>
         <div

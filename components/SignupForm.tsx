@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 
 /** Purple gradient email-capture card. Posts to /api/subscribe. */
 export function SignupForm() {
@@ -20,7 +21,8 @@ export function SignupForm() {
         body: JSON.stringify({ email }),
       });
       if (res.ok) {
-        setMsg("✓ You're in. First list hits your inbox Tuesday, 9am sharp.");
+        track("Email Signup", { location: "homepage" });
+        setMsg("✓ You're on the list. I'll email you when the first edition is ready.");
         setEmail("");
       } else {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
@@ -49,18 +51,23 @@ export function SignupForm() {
         >
           Get the List
           <br />
-          every Tuesday
+          by email
         </div>
         <div
           className="font-body text-[14px] mt-2"
           style={{ color: "#c8c1e8", lineHeight: 1.4, maxWidth: 300 }}
         >
-          One email. Ten quarterbacks. Zero corporate cowardice. Straight from the Rankmaster&apos;s
-          desk.
+          The email edition is coming. Join now and you&apos;ll be first to get it when it is ready.
         </div>
         <form onSubmit={onSubmit} className="flex gap-2 mt-4">
+          <label htmlFor="signup-email" className="sr-only">
+            Email address
+          </label>
           <input
+            id="signup-email"
+            name="email"
             type="email"
+            autoComplete="email"
             required
             placeholder="you@email.com"
             value={email}
@@ -89,6 +96,8 @@ export function SignupForm() {
           </button>
         </form>
         <div
+          role="status"
+          aria-live="polite"
           className="font-body font-semibold text-[12px] mt-[10px]"
           style={{ color: "#c9a227", minHeight: 14 }}
         >

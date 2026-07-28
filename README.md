@@ -1,13 +1,18 @@
 # Top10QB.com
 
-Weekly NFL quarterback rankings with an editorial voice ("The Rankmaster"). Mobile-first public
-site + a private admin tool, backed by Supabase, deployed on Vercel.
+One person's weekly NFL quarterback rankings, presented with intentionally excessive authority.
+Mobile-first public site + a private admin and graphics tool, backed by Supabase, deployed on
+Vercel.
 
 **New here / setting it up? Read [SETUP.md](SETUP.md) first.**
+
+**Reviewing the July 2026 strategy and site changes? Start with
+[START-HERE-FOR-CLAUDE.md](START-HERE-FOR-CLAUDE.md).**
 
 ## Stack
 - **Next.js (App Router) + TypeScript + Tailwind** — the public site and admin.
 - **Supabase** — Postgres database + magic-link auth for the single admin.
+- **Vercel Analytics** — page views, referrals, email-signup events, and follow-button clicks.
 - QB headshots are hotlinked from ESPN by player id (no stored images).
 - Deployed GitHub → Vercel. Design source lives in `/design`.
 
@@ -27,13 +32,15 @@ the database.
 ```
 app/                     Routes
   page.tsx               Home (latest published week)
-  archive/               Archive + streak
+  archive/               Honest record of every published list
   week/[season]/[week]/  A specific archived week
-  wrong/                 "Rankmaster Was Wrong"
+  wrong/                 "I Was Wrong" accountability page
   player/[slug]/         Player profile + trend chart
-  about/                 Rankmaster bio (toggle in lib/site.ts)
+  about/                 Ranking definition + one-person premise
+  graphics/list/         Automatically rendered weekly social graphics
   admin/                 Private admin (auth-gated by middleware)
     week/[id]/           Week editor (drag-reorder, drafts, publish)
+    graphics/            Preview + download the weekly graphics
     actions.ts           Server actions: save / publish / duplicate / export
     export/              CSV export
   api/subscribe/         Email capture endpoint
