@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { requireAdmin } from "@/lib/auth";
 import { getCurrentWeek } from "@/lib/data";
 import { listName } from "@/lib/site";
+import { GraphicsPicker, type GraphicShape } from "@/components/admin/GraphicsPicker";
 
 export const dynamic = "force-dynamic";
 
@@ -11,48 +11,64 @@ export const dynamic = "force-dynamic";
  * than looking identical every time. A and B differ in layout *and* in the
  * standing copy (see lib/graphics-copy.ts) — they're two designs, not one
  * design with a colour swap.
+ *
+ * To add a shape later: add an entry here. The picker tabs it in on its own,
+ * and the page still only renders two previews at a time.
  */
-const SHAPES = [
+const SHAPES: GraphicShape[] = [
   {
+    key: "landscape",
     title: "X / social landscape",
+    tab: "Landscape",
+    note: "1600×900. Best for an X post, link preview, or wide image.",
     query: "format=landscape",
-    variants: { a: "Left rail, cards.", b: "Banner header, editorial rules." },
     width: 1600,
     height: 900,
+    variants: [
+      { key: "a", label: "Left rail, cards." },
+      { key: "b", label: "Banner header, editorial rules." },
+    ],
   },
   {
+    key: "portrait",
     title: "Portrait list",
+    tab: "Portrait",
+    note: "1080×1350. Best for Instagram or a taller X image.",
     query: "format=portrait",
-    variants: { a: "Cards.", b: "Editorial rules." },
     width: 1080,
     height: 1350,
+    variants: [
+      { key: "a", label: "Cards." },
+      { key: "b", label: "Editorial rules." },
+    ],
   },
   {
+    key: "square",
     title: "Square list",
+    tab: "Square",
+    note: "1200×1200. Best for an Instagram grid post.",
     query: "format=square",
-    variants: { a: "Cards, two columns.", b: "Editorial rules, two columns." },
     width: 1200,
     height: 1200,
+    variants: [
+      { key: "a", label: "Cards, two columns." },
+      { key: "b", label: "Editorial rules, two columns." },
+    ],
   },
   {
+    key: "qb1",
     title: "No.1 quarterback",
+    tab: "No.1 QB",
+    note: "1080×1350. A single-player card built from the current No.1 take.",
     query: "kind=qb1",
-    variants: { a: "Name first, quote anchored low.", b: "Quote first, name as the payoff." },
     width: 1080,
     height: 1350,
+    variants: [
+      { key: "a", label: "Name first, quote anchored low." },
+      { key: "b", label: "Quote first, name as the payoff." },
+    ],
   },
-] as const;
-
-const GRAPHICS = SHAPES.flatMap((shape) =>
-  (["a", "b"] as const).map((variant) => ({
-    title: `${shape.title} — ${variant.toUpperCase()}`,
-    note: shape.variants[variant],
-    preview: `/graphics/list?${shape.query}&variant=${variant}`,
-    download: `/graphics/list?${shape.query}&variant=${variant}&download=1`,
-    width: shape.width,
-    height: shape.height,
-  })),
-);
+];
 
 export default async function AdminGraphicsPage() {
   await requireAdmin();
@@ -99,48 +115,8 @@ export default async function AdminGraphicsPage() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 px-5 py-6">
-        {GRAPHICS.map((graphic) => (
-          <section
-            key={graphic.title}
-            className="rounded-[16px] overflow-hidden"
-            style={{ background: "#100f12", border: "1px solid rgba(255,255,255,.08)" }}
-          >
-            {week && (
-              <Image
-                src={graphic.preview}
-                alt={`Preview of ${graphic.title}`}
-                width={graphic.width}
-                height={graphic.height}
-                unoptimized
-                className="block w-full h-auto"
-              />
-            )}
-            <div className="flex items-center justify-between gap-4" style={{ padding: "16px 16px 18px" }}>
-              <div>
-                <h2 className="font-body font-bold text-[16px] text-white">{graphic.title}</h2>
-                <p className="font-body text-[12px] mt-1" style={{ color: "#8a8578", lineHeight: 1.35 }}>
-                  {graphic.note}
-                </p>
-              </div>
-              {week && (
-                <a
-                  href={graphic.download}
-                  className="rounded-[10px] font-body font-bold text-[11px] uppercase text-white"
-                  style={{
-                    background: "#e8462f",
-                    padding: "11px 13px",
-                    letterSpacing: ".06em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  Download
-                </a>
-              )}
-            </div>
-          </section>
-        ))}
-      </div>
+      <GraphicsPicker shapes={SHAPES} ready={Boolean(week)} />
+
     </div>
   );
 }
