@@ -40,6 +40,7 @@ export type WeekSummary = {
   id: string;
   season: number;
   weekNumber: number;
+  label: string | null; // display name, e.g. "Playoffs 2025"
   status: "draft" | "published";
   publishedAt: string | null;
 };
@@ -92,13 +93,20 @@ export function blankWeek(season: number, weekNumber: number): EditableWeek {
 export async function listWeeks(): Promise<WeekSummary[]> {
   if (!hasSupabase) {
     return [
-      { id: "fixture-2024-14", season: 2024, weekNumber: 14, status: "published", publishedAt: WEEK_14.publishedAt },
+      {
+        id: "fixture-2024-14",
+        season: 2024,
+        weekNumber: 14,
+        label: WEEK_14.label ?? null,
+        status: "published",
+        publishedAt: WEEK_14.publishedAt,
+      },
     ];
   }
   const db = createSupabaseAdminClient();
   const { data, error } = await db
     .from("weeks")
-    .select("id, season, week_number, status, published_at")
+    .select("id, season, week_number, label, status, published_at")
     .order("season", { ascending: false })
     .order("week_number", { ascending: false });
   if (error) throw error;
@@ -106,6 +114,7 @@ export async function listWeeks(): Promise<WeekSummary[]> {
     id: w.id,
     season: w.season,
     weekNumber: w.week_number,
+    label: w.label ?? null,
     status: w.status,
     publishedAt: w.published_at,
   }));

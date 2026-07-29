@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { WeekBody } from "@/components/WeekBody";
 import { FollowButton } from "@/components/FollowButton";
 import { getWeek } from "@/lib/data";
+import { listName } from "@/lib/site";
 
 export const revalidate = 3600;
 
@@ -22,26 +23,26 @@ export async function generateMetadata({ params }: WeekPageProps): Promise<Metad
   const data = await getWeek(seasonNum, weekNum);
   if (!data) return {};
 
-  const listName = data.label || `Week ${data.weekNumber}`;
+  const name = listName(data);
   const no1 = data.ranked.find((qb) => qb.rank === 1);
   const description = no1
-    ? `${no1.name} is No.1 on the ${listName} Top10QB ranking. See the full list and every take.`
-    : `The full ${listName} Top10QB ranking.`;
+    ? `${no1.name} is No.1 on the ${name} Top10QB ranking. See the full list and every take.`
+    : `The full ${name} Top10QB ranking.`;
   const image = `/graphics/list?format=landscape&season=${data.season}&week=${data.weekNumber}`;
 
   return {
-    title: `${listName} QB Rankings`,
+    title: `${name} QB Rankings`,
     description,
     alternates: { canonical: `/week/${data.season}/${data.weekNumber}` },
     openGraph: {
-      title: `${listName} QB Rankings — Top10QB`,
+      title: `${name} QB Rankings — Top10QB`,
       description,
       type: "article",
-      images: [{ url: image, width: 1600, height: 900, alt: `${listName} Top10QB ranking` }],
+      images: [{ url: image, width: 1600, height: 900, alt: `${name} Top10QB ranking` }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${listName} QB Rankings — Top10QB`,
+      title: `${name} QB Rankings — Top10QB`,
       description,
       images: [image],
     },

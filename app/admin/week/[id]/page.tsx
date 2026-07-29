@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { getEditableWeek, getPreviousRanks, QB_OPTIONS } from "@/lib/admin-data";
 import { WeekEditor } from "@/components/admin/WeekEditor";
+import { listName } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,10 @@ export default async function EditWeekPage({ params }: { params: Promise<{ id: s
           ← Weeks
         </Link>
         <div className="font-body font-bold text-[13px] text-white">
-          Season {week.season} · Week {week.weekNumber}
+          {listName(week)}{" "}
+          <span className="font-medium" style={{ color: "#6b6862" }}>
+            · S{week.season} W{week.weekNumber}
+          </span>
         </div>
         <div className="w-[60px]" />
       </div>

@@ -20,7 +20,7 @@ export default async function HomePage() {
           className="px-5 py-20 text-center font-serif italic text-[20px]"
           style={{ color: "#8a8578" }}
         >
-          The Rankmaster is deliberating. First list drops soon.
+          Still arguing with myself about it. First list drops soon.
         </h1>
         <Footer />
       </div>

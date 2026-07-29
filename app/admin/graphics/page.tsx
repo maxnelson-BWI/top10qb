@@ -2,35 +2,57 @@ import Link from "next/link";
 import Image from "next/image";
 import { requireAdmin } from "@/lib/auth";
 import { getCurrentWeek } from "@/lib/data";
+import { listName } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
-const GRAPHICS = [
+/**
+ * Every shape ships in two variants so the weekly post can alternate rather
+ * than looking identical every time. A and B differ in layout *and* in the
+ * standing copy (see lib/graphics-copy.ts) — they're two designs, not one
+ * design with a colour swap.
+ */
+const SHAPES = [
   {
     title: "X / social landscape",
-    note: "Best for an X post, link preview, or wide image.",
-    preview: "/graphics/list?format=landscape",
-    download: "/graphics/list?format=landscape&download=1",
+    query: "format=landscape",
+    variants: { a: "Left rail, cards.", b: "Banner header, editorial rules." },
     width: 1600,
     height: 900,
   },
   {
     title: "Portrait list",
-    note: "Best for Instagram or a taller X image.",
-    preview: "/graphics/list?format=portrait",
-    download: "/graphics/list?format=portrait&download=1",
+    query: "format=portrait",
+    variants: { a: "Cards.", b: "Editorial rules." },
     width: 1080,
     height: 1350,
   },
   {
+    title: "Square list",
+    query: "format=square",
+    variants: { a: "Cards, two columns.", b: "Editorial rules, two columns." },
+    width: 1200,
+    height: 1200,
+  },
+  {
     title: "No.1 quarterback",
-    note: "A single-player card built from the current No.1 take.",
-    preview: "/graphics/list?kind=qb1",
-    download: "/graphics/list?kind=qb1&download=1",
+    query: "kind=qb1",
+    variants: { a: "Name first, quote anchored low.", b: "Quote first, name as the payoff." },
     width: 1080,
     height: 1350,
   },
-];
+] as const;
+
+const GRAPHICS = SHAPES.flatMap((shape) =>
+  (["a", "b"] as const).map((variant) => ({
+    title: `${shape.title} — ${variant.toUpperCase()}`,
+    note: shape.variants[variant],
+    preview: `/graphics/list?${shape.query}&variant=${variant}`,
+    download: `/graphics/list?${shape.query}&variant=${variant}&download=1`,
+    width: shape.width,
+    height: shape.height,
+  })),
+);
 
 export default async function AdminGraphicsPage() {
   await requireAdmin();
@@ -72,7 +94,7 @@ export default async function AdminGraphicsPage() {
         </h1>
         <p className="font-body text-[14px] mt-3" style={{ color: "#a9a39a", lineHeight: 1.45 }}>
           {week
-            ? `${week.label || `Week ${week.weekNumber}`} is loaded. Publish a new list and these update automatically.`
+            ? `${listName(week)} is loaded. Publish a new list and these update automatically.`
             : "Publish a list first, then the graphics will appear here."}
         </p>
       </div>

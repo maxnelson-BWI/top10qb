@@ -192,11 +192,19 @@ export async function getArchive(): Promise<ArchiveEntry[]> {
   }
 }
 
-/** Honest archive header stats derived only from published lists. */
+/**
+ * Honest archive header stats derived only from published lists.
+ *
+ * Deliberately not a season count. Two lists six months apart land in two
+ * different season labels, so "Seasons: 2" implied two years of history for
+ * what is really one offseason. `since` is the oldest list's own display date —
+ * it can't inflate, and it gets more interesting as the archive grows.
+ */
 export function archiveStats(entries: ArchiveEntry[]) {
   const distinctNo1 = new Set(entries.map((e) => e.no1Name)).size;
-  const seasons = new Set(entries.map((e) => e.season)).size;
-  return { weeksRanked: entries.length, seasons, distinctNo1 };
+  // getArchive() returns newest first, so the oldest list is last.
+  const since = entries.length ? entries[entries.length - 1].displayDate : "";
+  return { weeksRanked: entries.length, since, distinctNo1 };
 }
 
 export async function getWrongEntries(): Promise<WrongEntry[]> {

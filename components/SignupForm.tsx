@@ -22,7 +22,7 @@ export function SignupForm() {
       });
       if (res.ok) {
         track("Email Signup", { location: "homepage" });
-        setMsg("✓ You're on the list. I'll email you when the first edition is ready.");
+        setMsg("✓ You're in. I'll email you when there's actually an email.");
         setEmail("");
       } else {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
@@ -57,7 +57,7 @@ export function SignupForm() {
           className="font-body text-[14px] mt-2"
           style={{ color: "#c8c1e8", lineHeight: 1.4, maxWidth: 300 }}
         >
-          The email edition is coming. Join now and you&apos;ll be first to get it when it is ready.
+          Not built yet. Drop your email and you&apos;ll get the first one whenever I figure it out.
         </div>
         <form onSubmit={onSubmit} className="flex gap-2 mt-4">
           <label htmlFor="signup-email" className="sr-only">

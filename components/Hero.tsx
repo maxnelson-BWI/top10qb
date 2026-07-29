@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { RankedQB } from "@/lib/types";
 import { heroMovement } from "@/lib/movement";
-import { TAGLINE } from "@/lib/site";
+import { TAGLINE, listName } from "@/lib/site";
 import { firstName } from "@/lib/reference";
 import { HeroImage } from "./HeroImage";
 
@@ -20,7 +20,8 @@ export function Hero({
   const mv = heroMovement(no1.movement);
   const [first, ...rest] = no1.name.split(" ");
   const last = rest.join(" ");
-  const kicker = label ?? `Week ${weekNumber}`;
+  // `||` not `??`: an unlabelled week comes back as "" from the editor, not null.
+  const kicker = listName({ label, weekNumber });
   // Prefer an explicit per-week override, then the per-QB action shot by slug.
   const imageCandidates = [heroImageUrl, `/actions/${no1.qbSlug}.jpg`].filter(
     (s): s is string => Boolean(s),
@@ -106,14 +107,10 @@ export function Hero({
             borderLeft: "3px solid #e8462f",
           }}
         >
+          {/* No byline. Signing every take "The Rankmaster" was the costume —
+              it's the one bit that ran in third person every single week. */}
           <div className="font-serif italic text-[23px]" style={{ lineHeight: 1.32, color: "#f4f1ea" }}>
             &ldquo;{no1.take}&rdquo;
-          </div>
-          <div
-            className="font-body font-bold text-[10px] uppercase"
-            style={{ letterSpacing: ".16em", color: "#8a8578", marginTop: 14 }}
-          >
-            — The Rankmaster
           </div>
         </div>
       )}

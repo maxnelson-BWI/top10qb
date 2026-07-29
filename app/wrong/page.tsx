@@ -8,7 +8,7 @@ import { X_URL } from "@/lib/site";
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "I Was Wrong",
-  description: "The Top10QB accountability page: old quarterback takes revisited in public.",
+  description: "Old takes, revisited in public. The ones that aged badly live here.",
   alternates: { canonical: "/wrong" },
 };
 
@@ -34,7 +34,7 @@ export default async function WrongPage() {
           <br />Wrong
         </h1>
         <div className="font-serif italic text-[20px] mt-4" style={{ color: "#e6ddd0", lineHeight: 1.36, maxWidth: 360 }}>
-          &ldquo;If I make the list in public, I should take the losses in public too.&rdquo;
+          &ldquo;Public list, public misses.&rdquo;
         </div>
 
         {entries.length > 0 && (
@@ -62,8 +62,7 @@ export default async function WrongPage() {
               No entries yet.
             </div>
             <div className="font-serif italic text-[18px] mt-4" style={{ color: "#8a8578", lineHeight: 1.4 }}>
-              That is a data-entry problem, not proof I have never been wrong. The first real miss
-              goes here.
+              That&apos;s a me-not-filling-this-out problem. First real miss lands here.
             </div>
           </div>
         </div>
@@ -140,7 +139,7 @@ export default async function WrongPage() {
           <br />Send the receipt.
         </div>
         <div className="font-body text-[14px] mt-2" style={{ color: "#ffe4dd", lineHeight: 1.4, maxWidth: 300 }}>
-          The point is not to never be wrong. The point is to make an actual call and come back to it.
+          If it&apos;s a real miss it goes up here with my name on it.
         </div>
         <a
           href={X_URL}

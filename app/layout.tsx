@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     template: "%s — Top10QB",
   },
   description:
-    "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
+    "your favorite rapper's favorite top 10 list. Ten NFL quarterbacks ranked every Tuesday by one guy with no credentials.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Top10QB — The World Renowned List",
-    description: "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
+    description: "your favorite rapper's favorite top 10 list. Ten NFL quarterbacks ranked every Tuesday by one guy with no credentials.",
     url: "https://top10qb.com",
     siteName: "Top10QB",
     type: "website",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@top10qb",
     title: "Top10QB — The World Renowned List",
-    description: "One guy's weekly NFL quarterback rankings. No credentials. Plenty of opinions.",
+    description: "your favorite rapper's favorite top 10 list. Ten NFL quarterbacks ranked every Tuesday by one guy with no credentials.",
     images: ["/graphics/list?format=landscape"],
   },
 };

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { listWeeks } from "@/lib/admin-data";
+import { listName } from "@/lib/site";
 import { createWeek, duplicateLastWeek } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -87,15 +88,14 @@ export default async function AdminDashboard() {
                 className="flex items-center gap-3 py-3"
                 style={{ borderTop: "1px solid rgba(255,255,255,.06)" }}
               >
-                <div className="font-display font-extrabold text-[26px] text-white" style={{ width: 44 }}>
-                  {w.weekNumber}
-                </div>
                 <div className="flex-1">
                   <div className="font-body font-bold text-[15px] text-white">
-                    Season {w.season} · Week {w.weekNumber}
+                    {listName(w)}
                   </div>
+                  {/* Season + week is still the identity — it's the URL and the
+                      DB key — so it stays visible, just demoted under the name. */}
                   <div className="font-body font-medium text-[11px] uppercase" style={{ letterSpacing: ".06em", color: "#6b6862" }}>
-                    {w.publishedAt ? "Published" : "Draft"}
+                    S{w.season} W{w.weekNumber} · {w.publishedAt ? "Published" : "Draft"}
                   </div>
                 </div>
                 <span

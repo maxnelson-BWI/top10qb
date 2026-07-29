@@ -8,15 +8,15 @@ import { SHOW_ABOUT } from "@/lib/site";
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "About the List",
-  description: "What Top10QB ranks, how the list works, and the very limited credentials behind it.",
+  description: "What the list actually means, the four rules, and a full accounting of my credentials (there are none).",
   alternates: { canonical: "/about" },
 };
 
 const RULES = [
-  "This is a ranking of who I trust most to play quarterback this Sunday — not a career résumé and not a prediction of who wins MVP.",
-  "The numbers are evidence. They are not an automatic answer.",
-  "One great game can move a quarterback. One terrible quarter usually cannot.",
-  "I will change my mind. When a take ages badly enough, it goes on I Was Wrong.",
+  "Who I'd want playing QB for me this Sunday. Not fantasy points, not a lifetime achievement award.",
+  "Stats are evidence, not the verdict.",
+  "One great game can move you. One bad quarter usually can't.",
+  "I change my mind. When a take ages badly it goes on I Was Wrong.",
 ];
 
 export default function AboutPage() {
@@ -65,24 +65,22 @@ export default function AboutPage() {
             className="font-serif italic text-[20px] mt-[16px]"
             style={{ color: "#e6ddd0", lineHeight: 1.36, maxWidth: 360 }}
           >
-            That is the whole operation.
+            That&apos;s the whole operation.
           </div>
         </div>
       </div>
 
       <div style={{ padding: "26px 20px 4px" }}>
         <p className="font-body text-[16px]" style={{ color: "#c9c4bb", lineHeight: 1.55 }}>
-          I&apos;m one person with a television, too many opinions, and no job in football. I do not
-          have sources, a proprietary model, or a former scout whispering in my ear.
+          I don&apos;t have sources. I watch the games like you do, I just have way more opinions
+          about it.
         </p>
         <p className="font-body text-[16px] mt-3" style={{ color: "#c9c4bb", lineHeight: 1.55 }}>
-          I publish the ten quarterbacks I believe are best right now, explain the parts people
-          will yell about, and keep the old lists so nobody has to pretend I always knew what was
-          coming.
+          Every week I put ten guys in order, explain the ones people are going to yell about, and
+          leave the old lists up. No quietly editing last month once it looks dumb.
         </p>
         <p className="font-body text-[16px] mt-3" style={{ color: "#c9c4bb", lineHeight: 1.55 }}>
-          The opinions are sincere. The overly official presentation is the joke. When I&apos;m
-          wrong, the receipt belongs on{" "}
+          The takes are real. The graphics looking this official is the bit. When I miss, it goes on{" "}
           <Link href="/wrong" className="link-accent" style={{ color: "#e8462f", fontWeight: 600 }}>
             I Was Wrong
           </Link>
@@ -126,9 +124,8 @@ export default function AboutPage() {
           Full Bias Disclosure
         </div>
         <div className="font-serif italic text-[19px] mt-[10px]" style={{ color: "#e6ddd0", lineHeight: 1.4 }}>
-          I like aggressive quarterbacks, pocket movement, and throws that make the reasonable
-          decision look boring. I am probably too patient with quarterbacks I already believe in.
-          You will notice.
+          Checkdown merchants bore me even when they&apos;re winning. And I stay loyal to my guys
+          about a month longer than I should. You&apos;ll notice.
         </div>
       </div>
 
@@ -141,10 +138,10 @@ export default function AboutPage() {
           TOP<span style={{ color: "#e8462f" }}>10</span>QB
         </div>
         <div className="font-serif italic text-[15px] mt-1" style={{ color: "#8a8578" }}>
-          One guy. Ten quarterbacks. A completely unnecessary amount of confidence.
+          One guy ranking ten quarterbacks he has never met.
         </div>
         <div className="font-body font-medium text-[11px] mt-4" style={{ color: "#3a3630" }}>
-          New lists Tuesdays in season. Offseason lists when there is enough to argue about.
+          New lists Tuesdays in season. Offseason lists when there&apos;s something worth arguing about.
         </div>
       </div>
     </div>
