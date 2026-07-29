@@ -991,7 +991,13 @@ export async function GET(request: Request) {
     ...size,
     fonts: await graphicFonts(),
     headers: {
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      // Always render fresh. The old `s-maxage=3600, stale-while-revalidate`
+      // let Vercel's CDN serve an hour-old PNG (and up to a day stale), so
+      // fixing a date in /admin left the graphic showing the old one with no
+      // way to force it — revalidatePath doesn't reach a route handler's CDN
+      // entry. Downloading a graphic with last week's date on it costs more
+      // than the ~1s it takes to re-render.
+      "Cache-Control": "public, max-age=0, must-revalidate",
       "Content-Disposition": url.searchParams.get("download") === "1"
         ? `attachment; filename="${filename}"`
         : `inline; filename="${filename}"`,

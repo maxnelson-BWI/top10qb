@@ -62,7 +62,14 @@ export async function saveWeek(week: EditableWeek): Promise<ActionResult> {
       if (error) throw error;
     }
 
+    // Editing an already-published list is the common case (fixing a date, a
+    // label, a take), so this has to refresh the public pages too — not just
+    // /admin. Only publishWeek used to do that, which left the archive showing
+    // stale values until its hourly revalidate happened to expire.
     revalidatePath("/admin");
+    revalidatePath("/");
+    revalidatePath("/archive");
+    revalidatePath(`/week/${week.season}/${week.weekNumber}`);
     return { ok: true, id: weekId };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Save failed." };
